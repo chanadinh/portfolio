@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import emailjs from '@emailjs/browser';
 import { 
   Menu, 
   X, 
@@ -21,7 +22,10 @@ import {
   FileText,
   Users,
   MapPin,
-  Phone
+  Phone,
+  Send,
+  CheckCircle,
+  AlertCircle
 } from 'lucide-react';
 import './App.css';
 
@@ -52,6 +56,14 @@ interface Achievement {
 const App: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [contactForm, setContactForm] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const formRef = useRef<HTMLFormElement>(null);
 
   const projects: Project[] = [
     {
@@ -68,7 +80,7 @@ const App: React.FC = () => {
       title: "MNIST Digit Classifier",
       description: "Machine learning project for digit recognition using the MNIST dataset. Implemented neural networks and evaluated different ML algorithms for optimal classification accuracy.",
       technologies: ["Python", "Machine Learning", "Neural Networks", "MNIST Dataset", "Classification"],
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&h=300&fit=crop",
+      image: "/digit.png",
       github: "https://github.com/chanadinh/MNIST-Digit-Classifier-Project",
       live: "https://github.com/chanadinh/MNIST-Digit-Classifier-Project"
     },
@@ -95,7 +107,7 @@ const App: React.FC = () => {
       title: "Medusa Bot - Discord Bot",
       description: "A feature-rich Discord bot built with Node.js using multiple APIs including Flickr API and F1 data. Features REST API integration, slash commands, and event handling with 1 star on GitHub.",
       technologies: ["JavaScript", "Node.js", "Discord.js", "REST APIs", "Flickr API", "F1 Data", "Bot Development"],
-      image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=500&h=300&fit=crop",
+      image: "/medusabot.png",
       github: "https://github.com/chanadinh/medusa_bot",
       live: "https://github.com/chanadinh/medusa_bot"
     }
@@ -133,6 +145,43 @@ const App: React.FC = () => {
       date: "2025"
     }
   ];
+
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      // You'll need to replace these with your actual EmailJS credentials
+      const result = await emailjs.sendForm(
+        'service_m8aylg9', // Replace with your EmailJS service ID
+        'template_f8vbwvg', // Replace with your EmailJS template ID
+        formRef.current!,
+        'CvTsFgB1O6UxCfvM_' // Replace with your EmailJS public key
+      );
+
+      if (result.status === 200) {
+        setSubmitStatus('success');
+        setContactForm({ name: '', email: '', message: '' });
+        setTimeout(() => setSubmitStatus('idle'), 5000);
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      console.error('Email send error:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setContactForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -238,7 +287,10 @@ const App: React.FC = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <button className="btn-primary">
+              <button 
+                onClick={() => scrollToSection('projects')}
+                className="btn-primary"
+              >
                 View My Work
               </button>
               <a
@@ -492,15 +544,15 @@ const App: React.FC = () => {
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
                   <Mail className="w-5 h-5 text-primary-600" />
-                  <span className="text-gray-700">chan.dinh@example.com</span>
+                  <span className="text-gray-700">chandinh.jobs@gmail.com</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Phone className="w-5 h-5 text-primary-600" />
-                  <span className="text-gray-700">+1 (555) 123-4567</span>
+                  <span className="text-gray-700">+1 (689) 345-3588</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <MapPin className="w-5 h-5 text-primary-600" />
-                  <span className="text-gray-700">Orlando, FL</span>
+                  <span className="text-gray-700">Casselberry, FL</span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Users className="w-5 h-5 text-primary-600" />
@@ -543,7 +595,7 @@ const App: React.FC = () => {
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <form className="space-y-6">
+              <form ref={formRef} onSubmit={handleContactSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
                     Name
@@ -551,6 +603,10 @@ const App: React.FC = () => {
                   <input
                     type="text"
                     id="name"
+                    name="name"
+                    value={contactForm.name}
+                    onChange={handleInputChange}
+                    required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
                     placeholder="Your name"
                   />
@@ -563,6 +619,10 @@ const App: React.FC = () => {
                   <input
                     type="email"
                     id="email"
+                    name="email"
+                    value={contactForm.email}
+                    onChange={handleInputChange}
+                    required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300"
                     placeholder="your.email@example.com"
                   />
@@ -574,14 +634,47 @@ const App: React.FC = () => {
                   </label>
                   <textarea
                     id="message"
+                    name="message"
+                    value={contactForm.message}
+                    onChange={handleInputChange}
+                    required
                     rows={4}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-300 resize-none"
                     placeholder="Your message..."
                   />
                 </div>
+
+                {/* Status Messages */}
+                {submitStatus === 'success' && (
+                  <div className="flex items-center space-x-2 text-green-600 bg-green-50 p-3 rounded-lg">
+                    <CheckCircle className="w-5 h-5" />
+                    <span>Message sent successfully! I'll get back to you soon.</span>
+                  </div>
+                )}
+
+                {submitStatus === 'error' && (
+                  <div className="flex items-center space-x-2 text-red-600 bg-red-50 p-3 rounded-lg">
+                    <AlertCircle className="w-5 h-5" />
+                    <span>Failed to send message. Please try again or email me directly.</span>
+                  </div>
+                )}
                 
-                <button type="submit" className="btn-primary w-full">
-                  Send Message
+                <button 
+                  type="submit" 
+                  disabled={isSubmitting}
+                  className="btn-primary w-full flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                      <span>Sending...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5" />
+                      <span>Send Message</span>
+                    </>
+                  )}
                 </button>
               </form>
             </motion.div>
