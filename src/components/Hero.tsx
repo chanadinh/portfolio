@@ -47,6 +47,12 @@ const Hero: React.FC<HeroProps> = ({ scrollToSection }) => {
               Chat with My Assistant
             </button>
             <a
+              href="/graphing"
+              className="btn-secondary bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white border-0"
+            >
+              Interactive Graphing
+            </a>
+            <a
               href="/Chan Dinh Resume April 2025.pdf"
               target="_blank"
               rel="noopener noreferrer"

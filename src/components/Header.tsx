@@ -34,6 +34,12 @@ const Header: React.FC<HeaderProps> = ({ scrollToSection }) => {
                 {item}
               </button>
             ))}
+            <a
+              href="/graphing"
+              className="text-gray-600 hover:text-primary-600 transition-colors duration-300 font-medium bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent hover:from-blue-700 hover:to-purple-700"
+            >
+              Graphing
+            </a>
           </nav>
 
           <motion.div
