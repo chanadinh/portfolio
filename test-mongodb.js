@@ -1,11 +1,19 @@
 // Test MongoDB Connection Script
 // Run this with: node test-mongodb.js
-// Make sure to set your actual password in the URI
+// Make sure to set your MongoDB URI in environment variables
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
-// Replace YOUR_ACTUAL_PASSWORD with your real MongoDB password
-const uri = "mongodb+srv://chandinhjobs:YOUR_ACTUAL_PASSWORD@cluster0.mknpcws.mongodb.net/portfolio?retryWrites=true&w=majority&appName=Cluster0";
+// Get MongoDB URI from environment variable
+const uri = process.env.REACT_APP_MONGODB_URI || process.env.MONGODB_URI;
+
+if (!uri) {
+  console.error('❌ MongoDB URI not found in environment variables!');
+  console.log('💡 Set REACT_APP_MONGODB_URI or MONGODB_URI environment variable');
+  console.log('💡 Example: export REACT_APP_MONGODB_URI="mongodb+srv://..."');
+  console.log('💡 Or create a .env file with your MongoDB URI');
+  process.exit(1);
+}
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -18,6 +26,11 @@ const client = new MongoClient(uri, {
 async function testConnection() {
   try {
     console.log('🔌 Connecting to MongoDB Atlas...');
+    console.log('📍 Cluster: cluster0.mknpcws.mongodb.net');
+    console.log('📊 Database: portfolio');
+    console.log('🗂️  Collection: Chat');
+    console.log('');
+    
     await client.connect();
     
     console.log('✅ Successfully connected to MongoDB Atlas!');
@@ -48,6 +61,7 @@ async function testConnection() {
     console.log('2. Check if your IP is whitelisted in MongoDB Atlas');
     console.log('3. Verify the cluster is running');
     console.log('4. Ensure the database user has proper permissions');
+    console.log('5. Check your environment variable is set correctly');
   } finally {
     await client.close();
     console.log('🔌 Connection closed');
@@ -55,9 +69,7 @@ async function testConnection() {
 }
 
 console.log('🚀 Starting MongoDB Connection Test...');
-console.log('📍 Cluster: cluster0.mknpcws.mongodb.net');
-console.log('📊 Database: portfolio');
-console.log('🗂️  Collection: Chat');
+console.log('🔐 Using environment variable for connection');
 console.log('');
 
 testConnection().catch(console.dir);

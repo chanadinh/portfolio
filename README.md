@@ -80,21 +80,52 @@ REACT_APP_DESMOS_API_KEY=your_desmos_api_key_here
    - **Database**: `portfolio`
    - **Collection**: `Chat`
 
-2. **Get Your Connection String:**
-   - Go to [MongoDB Atlas](https://www.mongodb.com/atlas)
-   - Navigate to your cluster: `cluster0.mknpcws.mongodb.net`
-   - Click "Connect" → "Connect your application"
-   - Copy the connection string
+2. **Local Development Setup:**
+   ```bash
+   # Create a .env file in your project root
+   cp env.example .env
+   
+   # Edit .env and add your actual MongoDB password
+   REACT_APP_MONGODB_URI=mongodb+srv://chandinhjobs:YOUR_ACTUAL_PASSWORD@cluster0.mknpcws.mongodb.net/portfolio?retryWrites=true&w=majority&appName=Cluster0
+   ```
 
-3. **Set Environment Variable:**
-   - **IMPORTANT**: Add to Vercel environment variables as `REACT_APP_MONGODB_URI`
-   - **NEVER commit the MongoDB URI to git** - it contains database credentials
-   - Format: `mongodb+srv://chandinhjobs:YOUR_PASSWORD@cluster0.mknpcws.mongodb.net/portfolio?retryWrites=true&w=majority&appName=Cluster0`
+3. **Production Deployment (Vercel):**
+   - Go to Vercel Dashboard → Your Project → Settings → Environment Variables
+   - Add: `REACT_APP_MONGODB_URI`
+   - Value: Your complete MongoDB connection string with real password
+   - **NEVER commit the .env file to git** - it contains database credentials
 
 4. **Test Connection:**
-   - Use the provided `test-mongodb.js` script
-   - Replace `YOUR_ACTUAL_PASSWORD` with your real password
-   - Run: `node test-mongodb.js`
+   ```bash
+   # Set environment variable
+   export REACT_APP_MONGODB_URI="mongodb+srv://chandinhjobs:YOUR_PASSWORD@cluster0.mknpcws.mongodb.net/portfolio?retryWrites=true&w=majority&appName=Cluster0"
+   
+   # Run test script
+   node test-mongodb.js
+   ```
+
+### Environment Variables Setup
+
+#### **Local Development (.env file):**
+```bash
+# Copy the example file
+cp env.example .env
+
+# Edit .env with your actual credentials
+REACT_APP_OPENAI_API_KEY=sk-your_actual_openai_key
+REACT_APP_DESMOS_API_KEY=your_actual_desmos_key
+REACT_APP_MONGODB_URI=mongodb+srv://chandinhjobs:YOUR_ACTUAL_PASSWORD@cluster0.mknpcws.mongodb.net/portfolio?retryWrites=true&w=majority&appName=Cluster0
+```
+
+#### **Production (Vercel Dashboard):**
+1. Go to [Vercel Dashboard](https://vercel.com/dashboard)
+2. Select your portfolio project
+3. Go to Settings → Environment Variables
+4. Add each variable:
+   - `REACT_APP_OPENAI_API_KEY` = your OpenAI API key
+   - `REACT_APP_DESMOS_API_KEY` = your Desmos API key
+   - `REACT_APP_MONGODB_URI` = your MongoDB connection string
+5. Deploy - environment variables will be automatically available
 
 ### Security Notes
 - **MongoDB URI**: Contains username, password, and database access - keep this secret!

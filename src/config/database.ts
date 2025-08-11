@@ -1,12 +1,23 @@
 import mongoose from 'mongoose';
 
-// MongoDB Atlas connection string - set this in Vercel environment variables
-const MONGODB_URI = process.env.REACT_APP_MONGODB_URI || 'mongodb+srv://chandinhjobs:<db_password>@cluster0.mknpcws.mongodb.net/portfolio?retryWrites=true&w=majority&appName=Cluster0';
+// MongoDB Atlas connection string - MUST be set in environment variables
+const MONGODB_URI = process.env.REACT_APP_MONGODB_URI;
+
+if (!MONGODB_URI) {
+  console.warn('⚠️  REACT_APP_MONGODB_URI not set. Chat history will not work.');
+  console.log('💡 Set this in Vercel environment variables for production.');
+  console.log('💡 For local development, create a .env file with your MongoDB URI.');
+}
 
 export const connectDB = async (): Promise<void> => {
+  if (!MONGODB_URI) {
+    console.error('❌ MongoDB URI not configured. Cannot connect to database.');
+    throw new Error('REACT_APP_MONGODB_URI environment variable is not set');
+  }
+
   try {
     if (mongoose.connection.readyState === 1) {
-      console.log('MongoDB already connected');
+      console.log('✅ MongoDB already connected');
       return;
     }
 
@@ -28,6 +39,7 @@ export const connectDB = async (): Promise<void> => {
   } catch (error) {
     console.error('❌ MongoDB connection error:', error);
     console.log('💡 Make sure REACT_APP_MONGODB_URI is set in Vercel environment variables');
+    console.log('💡 Check that your MongoDB Atlas cluster is running and accessible');
     throw error;
   }
 };
@@ -48,6 +60,12 @@ export const getDBInfo = () => {
     database: 'portfolio',
     collection: 'Chat',
     cluster: 'cluster0.mknpcws.mongodb.net',
-    connectionStatus: mongoose.connection.readyState
+    connectionStatus: mongoose.connection.readyState,
+    isConfigured: !!MONGODB_URI
   };
+};
+
+// Check if MongoDB is properly configured
+export const isMongoDBConfigured = (): boolean => {
+  return !!MONGODB_URI;
 };
