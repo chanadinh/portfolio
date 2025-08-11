@@ -1,0 +1,28 @@
+{
+  "name": "portfolio-chat-backend",
+  "type": "node",
+  "version": "1.0.0",
+  "description": "Backend API for Portfolio Chat System",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "mongodb": "^6.3.0"
+  },
+  "env": {
+    "MONGODB_URI": "mongodb+srv://chandinhjobs:Khanhngo12309@cluster0.mknpcws.mongodb.net/portfolio?retryWrites=true&w=majority&appName=Cluster0",
+    "PORT": "8080"
+  },
+  "regions": ["us-east-1"],
+  "functions": {
+    "server.js": {
+      "config": {
+        "maxDuration": 30
+      }
+    }
+  }
+}
