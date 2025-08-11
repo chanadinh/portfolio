@@ -21,110 +21,218 @@ const retrieveRelevantInfo = (query: string): string => {
   
   // Check for education-related queries
   if (lowerQuery.includes('education') || lowerQuery.includes('degree') || lowerQuery.includes('university') || lowerQuery.includes('gpa')) {
-    relevantInfo += `🎓 **EDUCATION & ACADEMIC BACKGROUND** 🎓
+    relevantInfo += `# 🎓 Education & Academic Background
 
-**Degree:** ${KNOWLEDGE_BASE.education.degree}
-**Institution:** ${KNOWLEDGE_BASE.education.university}
-**Graduation:** ${KNOWLEDGE_BASE.education.graduation}
-**Academic Performance:** ${KNOWLEDGE_BASE.education.gpa} GPA
+## 📋 **Degree Information**
+**Program:** ${KNOWLEDGE_BASE.education.degree}  
+**Institution:** ${KNOWLEDGE_BASE.education.university}  
+**Expected Graduation:** ${KNOWLEDGE_BASE.education.graduation}  
+**Academic Performance:** **${KNOWLEDGE_BASE.education.gpa} GPA**
 
-**Relevant Coursework:**
-• ${KNOWLEDGE_BASE.education.relevant_courses.join('\n• ')}
+## 📚 **Core Coursework**
+${KNOWLEDGE_BASE.education.relevant_courses.map(course => `• **${course}**`).join('\n')}
 
-Chan's exceptional academic performance with a perfect 4.0 GPA demonstrates his dedication to excellence in computer science. This strong foundation, combined with specialized AI/ML coursework, provides the theoretical knowledge needed for advanced technical projects.\n\n`;
+## 🎯 **Academic Highlights**
+Chan's **perfect 4.0 GPA** demonstrates exceptional dedication to academic excellence. This outstanding performance, combined with specialized coursework in AI/ML, computer vision, and natural language processing, provides a solid theoretical foundation for advanced technical projects and research.
+
+---
+
+*Chan's academic achievements reflect his commitment to mastering both fundamental computer science principles and cutting-edge AI/ML technologies.*\n\n`;
   }
   
   // Check for experience-related queries
   if (lowerQuery.includes('experience') || lowerQuery.includes('work') || lowerQuery.includes('intern') || lowerQuery.includes('job')) {
-    relevantInfo += `💼 **PROFESSIONAL EXPERIENCE & EXPERTISE** 💼
+    relevantInfo += `# 💼 Professional Experience & Expertise
 
-**Current Role:** ${KNOWLEDGE_BASE.experience.current_role}
-**Previous Experience:** ${KNOWLEDGE_BASE.experience.previous}
+## 🎯 **Current Role**
+**Position:** ${KNOWLEDGE_BASE.experience.current_role}
 
-**Technical Skills & Technologies:**
-• ${KNOWLEDGE_BASE.experience.skills.join('\n• ')}
+## 🔄 **Previous Experience**
+**Background:** ${KNOWLEDGE_BASE.experience.previous}
 
-Chan combines hands-on industry experience with cutting-edge AI/ML knowledge, making him well-equipped for both development and research roles.\n\n`;
+## ⚡ **Technical Skills & Technologies**
+
+### 🐍 **Programming Languages & Frameworks**
+• **Python** - Core language for AI/ML development  
+• **JavaScript** - Full-stack web development  
+• **React** - Modern frontend development  
+• **Node.js** - Backend and server-side development  
+
+### 🤖 **AI/ML & Data Science**
+• **PyTorch** - Deep learning framework  
+• **TensorFlow** - Machine learning platform  
+• **Machine Learning** - Algorithm development and implementation  
+• **Deep Learning** - Neural network architectures  
+
+### 👁️ **Computer Vision & NLP**
+• **Computer Vision** - Image processing and analysis  
+• **Natural Language Processing** - Text analysis and generation  
+
+### 🛠️ **Development & Tools**
+• **Web Development** - Full-stack applications  
+• **Software Engineering** - Best practices and methodologies  
+
+---
+
+*Chan's diverse skill set combines practical industry experience with cutting-edge AI/ML knowledge, making him a versatile professional capable of tackling complex technical challenges across multiple domains.*\n\n`;
   }
   
   // Check for project-related queries
   if (lowerQuery.includes('project') || lowerQuery.includes('portfolio') || lowerQuery.includes('work')) {
-    relevantInfo += `🚀 **PROJECTS & PORTFOLIO** 🚀
+    relevantInfo += `# 🚀 Projects & Portfolio
 
-**Featured Projects:**
+## 🌟 **Featured Projects**
 
-• **Project Pæmon** – AI web app generating personalized digital companions using GPT-5 and Stable Diffusion. Won Best Personal Project at Nosu AI Hackathon with $650 prize.
+### 🤖 **Project Pæmon**
+**Type:** AI Web Application  
+**Technologies:** GPT-5, Stable Diffusion, Web Development  
+**Achievement:** 🏆 **Best Personal Project** at Nosu AI Hackathon ($650 prize)  
+**Description:** An innovative AI-powered platform that generates personalized digital companions, showcasing advanced AI integration and user experience design.
 
-• **MNIST Digit Classifier** – Machine learning project implementing neural networks and ML algorithms for digit recognition.
+### 🔢 **MNIST Digit Classifier**
+**Type:** Machine Learning Project  
+**Technologies:** Neural Networks, ML Algorithms, Python  
+**Description:** Implementation of various machine learning algorithms for digit recognition, demonstrating strong fundamentals in ML and algorithm development.
 
-• **Bike Sharing Demand Prediction** – ML project using AutoGluon for automated machine learning and time series forecasting.
+### 🚲 **Bike Sharing Demand Prediction**
+**Type:** ML/Automation Project  
+**Technologies:** AutoGluon, Time Series Forecasting, Automated ML  
+**Description:** Advanced machine learning project using AutoGluon for automated machine learning and time series forecasting, showing expertise in modern ML tools.
 
-• **Dog Breed Classifier** – Computer vision project using PyTorch and CNN architectures (AlexNet, VGG, ResNet).
+### 🐕 **Dog Breed Classifier**
+**Type:** Computer Vision Project  
+**Technologies:** PyTorch, CNN Architectures (AlexNet, VGG, ResNet)  
+**Description:** Sophisticated computer vision project implementing multiple CNN architectures for breed classification, demonstrating deep learning expertise.
 
-• **Medusa Bot** – Feature-rich Discord bot with REST API integration and multiple external APIs.
+### 🤖 **Medusa Bot**
+**Type:** Discord Bot Development  
+**Technologies:** REST API Integration, Multiple External APIs, Bot Development  
+**Description:** Feature-rich Discord bot showcasing API integration skills and software engineering best practices.
 
-These projects demonstrate Chan's versatility across AI/ML, computer vision, web development, and software engineering.\n\n`;
+---
+
+## 🎯 **Project Highlights**
+These projects demonstrate Chan's **versatility** across multiple domains:
+• **AI/ML & Computer Vision** - Advanced neural network implementations  
+• **Web Development** - Modern, responsive applications  
+• **Software Engineering** - Clean, maintainable code architecture  
+• **API Integration** - Seamless third-party service connections  
+
+*Each project represents a unique technical challenge and showcases different aspects of Chan's comprehensive skill set.*\n\n`;
   }
   
   // Check for achievement-related queries
   if (lowerQuery.includes('achievement') || lowerQuery.includes('award') || lowerQuery.includes('prize') || lowerQuery.includes('hackathon')) {
-    relevantInfo += `🏆 **ACHIEVEMENTS & AWARDS** 🏆
+    relevantInfo += `# 🏆 Achievements & Awards
 
-• **Best Personal Project (CodeBuff)** – Won $650 USD at the **Nosu AI Hackathon** for creating an innovative AI-powered project
+## 🥇 **Best Personal Project (CodeBuff)**
+**Prize:** $650 USD  
+**Event:** Nosu AI Hackathon  
+**Description:** Created an innovative AI-powered project that impressed judges with its technical sophistication and practical application.
 
-• **Top 5 Individual** at the **Intercollegiate Programming Competition**, showcasing strong problem-solving and algorithmic skills
+## 🏅 **Top 5 Individual**
+**Event:** Intercollegiate Programming Competition  
+**Achievement:** Demonstrated exceptional problem-solving and algorithmic skills in a competitive environment.
 
-• **AI Programming with Python Nanodegree** from **Udacity**, demonstrating expertise in Python, machine learning, and AI fundamentals
+## 🎓 **AI Programming with Python Nanodegree**
+**Provider:** Udacity  
+**Focus:** Python, Machine Learning, AI Fundamentals  
+**Outcome:** Comprehensive expertise in modern AI development practices.
 
-• **Academic Excellence** – Maintained a **4.0 GPA** while studying **Computer Science** at **Seminole State College of Florida**
+## 📚 **Academic Excellence**
+**Performance:** 4.0 GPA  
+**Field:** Computer Science  
+**Institution:** Seminole State College of Florida  
+**Status:** Graduating 2025
 
-These achievements highlight Chan's technical skills, competitive programming abilities, and commitment to continuous learning in AI/ML.\n\n`;
+---
+
+*These achievements demonstrate Chan's technical prowess, competitive spirit, and unwavering commitment to excellence in AI/ML and computer science.*\n\n`;
   }
   
   // Check for skills-related queries
   if (lowerQuery.includes('skill') || lowerQuery.includes('technology') || lowerQuery.includes('programming') || lowerQuery.includes('language')) {
-    relevantInfo += `⚡ **TECHNICAL SKILLS & EXPERTISE** ⚡
+    relevantInfo += `# ⚡ Technical Skills & Expertise
 
-**Programming Languages & Frameworks:**
-• Python, JavaScript, React, Node.js
+## 🐍 **Programming Languages & Frameworks**
+• **Python** - Primary language for AI/ML development and data science  
+• **JavaScript** - Full-stack web development and modern applications  
+• **React** - Component-based frontend development  
+• **Node.js** - Server-side JavaScript and backend development  
 
-**AI/ML & Data Science:**
-• PyTorch, TensorFlow, Machine Learning, Deep Learning
+## 🤖 **AI/ML & Data Science**
+• **PyTorch** - Deep learning framework for research and production  
+• **TensorFlow** - Comprehensive machine learning platform  
+• **Machine Learning** - Algorithm development and model training  
+• **Deep Learning** - Neural network architectures and optimization  
 
-**Computer Vision & NLP:**
-• Computer Vision, Natural Language Processing
+## 👁️ **Computer Vision & NLP**
+• **Computer Vision** - Image processing, object detection, and analysis  
+• **Natural Language Processing** - Text analysis, generation, and understanding  
 
-**Development & Tools:**
-• Web Development, Software Engineering
+## 🛠️ **Development & Tools**
+• **Web Development** - Full-stack applications and responsive design  
+• **Software Engineering** - Best practices, testing, and deployment  
 
-Chan's skill set spans the full spectrum from traditional software development to cutting-edge AI/ML technologies, making him a versatile and valuable team member.\n\n`;
+---
+
+## 🎯 **Skill Level Assessment**
+Chan's expertise spans **multiple technical domains** with particular strength in:
+• **AI/ML Development** - Advanced neural network implementations  
+• **Full-Stack Development** - End-to-end application development  
+• **Research & Innovation** - Cutting-edge technology exploration  
+• **Problem Solving** - Algorithmic thinking and optimization  
+
+*This diverse skill set makes Chan a versatile professional capable of contributing to projects across the entire technology stack.*\n\n`;
   }
   
   // Check for contact-related queries
   if (lowerQuery.includes('contact') || lowerQuery.includes('email') || lowerQuery.includes('linkedin') || lowerQuery.includes('github')) {
-    relevantInfo += `📧 **CONTACT & PROFESSIONAL LINKS** 📧
+    relevantInfo += `# 📧 Contact & Professional Links
 
-**Get in Touch:**
-• **Email:** ${KNOWLEDGE_BASE.personal.email}
-• **LinkedIn:** ${KNOWLEDGE_BASE.personal.linkedin}
-• **GitHub:** ${KNOWLEDGE_BASE.personal.github}
+## 💬 **Get in Touch**
+**Email:** [${KNOWLEDGE_BASE.personal.email}](mailto:${KNOWLEDGE_BASE.personal.email})  
+**LinkedIn:** [Professional Profile](${KNOWLEDGE_BASE.personal.linkedin})  
+**GitHub:** [Code Repository](${KNOWLEDGE_BASE.personal.github})  
 
-**Location:** ${KNOWLEDGE_BASE.personal.location}
+## 📍 **Location**
+**City:** ${KNOWLEDGE_BASE.personal.location}
 
-Feel free to reach out for collaboration opportunities, technical discussions, or to learn more about Chan's work!\n\n`;
+## 🤝 **Collaboration Opportunities**
+Chan is always interested in:
+• **Technical Discussions** - AI/ML, computer vision, and software development  
+• **Project Collaboration** - Open source contributions and joint ventures  
+• **Research Opportunities** - Cutting-edge AI/ML research and development  
+• **Professional Networking** - Industry connections and mentorship  
+
+---
+
+*Feel free to reach out for any of these opportunities or to learn more about Chan's work and expertise!*\n\n`;
   }
   
   // Check for general personal queries
   if (lowerQuery.includes('who are you') || lowerQuery.includes('tell me about') || lowerQuery.includes('background') || lowerQuery.includes('yourself')) {
-    relevantInfo += `👋 **ABOUT CHAN DINH** 👋
+    relevantInfo += `# 👋 About Chan Dinh
 
-**Professional Identity:** ${KNOWLEDGE_BASE.personal.title}
+## 🎯 **Professional Identity**
+**Role:** ${KNOWLEDGE_BASE.personal.title}  
 **Location:** ${KNOWLEDGE_BASE.personal.location}
 
-**Areas of Passion & Expertise:**
-• ${KNOWLEDGE_BASE.interests.join('\n• ')}
+## 🔥 **Areas of Passion & Expertise**
+${KNOWLEDGE_BASE.interests.map(interest => `• **${interest}**`).join('\n')}
 
-Chan is a dedicated AI/ML engineer and full-stack developer who combines strong academic foundations with practical industry experience. His work spans from competitive programming to cutting-edge AI applications, demonstrating both technical depth and innovative thinking.\n\n`;
+## 🌟 **Professional Summary**
+Chan is a **dedicated AI/ML engineer** and **full-stack developer** who combines strong academic foundations with practical industry experience. His work spans from competitive programming to cutting-edge AI applications, demonstrating both technical depth and innovative thinking.
+
+## 🚀 **Key Strengths**
+• **Academic Excellence** - Perfect 4.0 GPA in Computer Science  
+• **Technical Versatility** - Full-stack development to AI/ML research  
+• **Competitive Edge** - Top programming competition performer  
+• **Innovation Focus** - Hackathon winner with practical AI solutions  
+
+---
+
+*Chan represents the next generation of AI/ML professionals - combining theoretical knowledge with practical implementation skills to create innovative solutions.*\n\n`;
   }
   
   return relevantInfo;
@@ -212,17 +320,21 @@ const MedusaChat: React.FC = () => {
 IMPORTANT CONTEXT ABOUT CHAN DINH:
 ${retrieveRelevantInfo(inputText)}
 
-Use this information to provide accurate, personalized responses about Chan's experience, skills, projects, and achievements. When asked about Chan, always reference this information and maintain the well-formatted structure with proper spacing, bullet points, and emojis.
+Use this information to provide accurate, personalized responses about Chan's experience, skills, projects, and achievements. When asked about Chan, always reference this information and maintain the enhanced ChatGPT-like formatting structure.
 
 IMPORTANT FORMATTING GUIDELINES:
-- Use clear section headers with emojis and bold text
-- Maintain proper spacing between sections
-- Use bullet points (•) for lists
-- Bold important information and names
-- Keep responses well-structured and easy to read
-- For general questions, you can still provide helpful information about programming, AI/ML, and other topics
+- Use Markdown-style headers (# for main sections, ## for subsections, ### for sub-subsections)
+- Include relevant emojis for visual appeal and section identification
+- Use horizontal rules (---) to separate major sections
+- Format lists with bullet points (•) and bold key terms
+- Use bold text (**text**) for emphasis on important information
+- Include descriptive text for each bullet point when appropriate
+- Add summary sections with key highlights
+- Use italics (*text*) for concluding thoughts and insights
+- Maintain consistent spacing and visual hierarchy
+- For general questions, you can also provide helpful information about programming, AI/ML, and other topics
 
-Be conversational, helpful, and provide accurate information. Keep responses concise but informative. If the user asks about Chan's background, skills, or experience, make sure to include relevant details from the context provided in a well-formatted manner.`
+Be conversational, helpful, and provide accurate information. Keep responses concise but informative. If the user asks about Chan's background, skills, or experience, make sure to include relevant details from the context provided in a well-formatted, ChatGPT-like manner.`
             },
             ...messages
               .filter(msg => msg.sender === 'user')
