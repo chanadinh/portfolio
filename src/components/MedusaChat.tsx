@@ -21,60 +21,30 @@ const retrieveRelevantInfo = (query: string): string => {
   
   // Check for education-related queries
   if (lowerQuery.includes('education') || lowerQuery.includes('degree') || lowerQuery.includes('university') || lowerQuery.includes('gpa')) {
-    relevantInfo += `# 🎓 Education & Academic Background
+    relevantInfo += `Oh, Chan's educational journey is really impressive! Let me share what I know about his academic background.
 
-## 📋 **Degree Information**
-**Program:** ${KNOWLEDGE_BASE.education.degree}  
-**Institution:** ${KNOWLEDGE_BASE.education.university}  
-**Expected Graduation:** ${KNOWLEDGE_BASE.education.graduation}  
-**Academic Performance:** **${KNOWLEDGE_BASE.education.gpa} GPA**
+He's currently pursuing his **Bachelor of Science in Computer Science** at Seminole State College of Florida, and here's the thing that really stands out - he's maintaining a **perfect 4.0 GPA**! I mean, that's not easy, especially in computer science where the courses can get pretty intense.
 
-## 📚 **Core Coursework**
-${KNOWLEDGE_BASE.education.relevant_courses.map(course => `• **${course}**`).join('\n')}
+He's set to graduate in 2025, and he's not just coasting through. The courses he's taking are really cutting-edge stuff - we're talking about **Machine Learning Fundamentals**, **Computer Vision**, **Natural Language Processing**, and all the core computer science courses like **Data Structures & Algorithms** and **Software Engineering Principles**.
 
-## 🎯 **Academic Highlights**
-Chan's **perfect 4.0 GPA** demonstrates exceptional dedication to academic excellence. This outstanding performance, combined with specialized coursework in AI/ML, computer vision, and natural language processing, provides a solid theoretical foundation for advanced technical projects and research.
+What I find really cool about Chan is that he's not just memorizing formulas or copying code. He's actually understanding the concepts deeply. When you talk to him about neural networks or computer vision, you can tell he's not just repeating what he read in a textbook - he's really thought through the problems and can explain them in his own words.
 
----
-
-*Chan's academic achievements reflect his commitment to mastering both fundamental computer science principles and cutting-edge AI/ML technologies.*\n\n`;
+His academic performance shows he's got that rare combination of intelligence and work ethic. A 4.0 GPA in computer science means he's not just smart, he's disciplined and consistent. That's the kind of foundation that sets you up for success in the real world, especially in AI/ML where things move so fast.\n\n`;
   }
   
   // Check for experience-related queries
   if (lowerQuery.includes('experience') || lowerQuery.includes('work') || lowerQuery.includes('intern') || lowerQuery.includes('job')) {
-    relevantInfo += `# 💼 Professional Experience & Expertise
+    relevantInfo += `Chan's professional journey is really fascinating! Let me tell you about his experience and what makes him stand out.
 
-## 🎯 **Current Role**
-**Position:** ${KNOWLEDGE_BASE.experience.current_role}
+Right now, he's working as an **AI/ML Engineer & Full-Stack Developer**, which is pretty impressive for someone still in college. He's not just learning theory - he's actually applying it in real-world projects. Before that, he had experience as a **Software Engineering Intern**, so he's been building his skills progressively.
 
-## 🔄 **Previous Experience**
-**Background:** ${KNOWLEDGE_BASE.experience.previous}
+What really impresses me about Chan is the breadth of his technical skills. He's not just a one-trick pony. He's got **Python** down pat - that's his go-to language for all the AI/ML work he does. But he's also solid with **JavaScript**, **React**, and **Node.js**, so he can build full-stack applications from the ground up.
 
-## ⚡ **Technical Skills & Technologies**
+When it comes to AI/ML, he's working with the big guns - **PyTorch** and **TensorFlow**. I've seen some of his work, and he's not just running pre-trained models. He's actually building and training neural networks from scratch. That takes real understanding of the underlying math and algorithms.
 
-### 🐍 **Programming Languages & Frameworks**
-• **Python** - Core language for AI/ML development  
-• **JavaScript** - Full-stack web development  
-• **React** - Modern frontend development  
-• **Node.js** - Backend and server-side development  
+He's also got this knack for **computer vision** and **natural language processing**. It's one thing to know about these fields, but another to actually implement working solutions. Chan can take a problem, break it down, and build something that actually works.
 
-### 🤖 **AI/ML & Data Science**
-• **PyTorch** - Deep learning framework  
-• **TensorFlow** - Machine learning platform  
-• **Machine Learning** - Algorithm development and implementation  
-• **Deep Learning** - Neural network architectures  
-
-### 👁️ **Computer Vision & NLP**
-• **Computer Vision** - Image processing and analysis  
-• **Natural Language Processing** - Text analysis and generation  
-
-### 🛠️ **Development & Tools**
-• **Web Development** - Full-stack applications  
-• **Software Engineering** - Best practices and methodologies  
-
----
-
-*Chan's diverse skill set combines practical industry experience with cutting-edge AI/ML knowledge, making him a versatile professional capable of tackling complex technical challenges across multiple domains.*\n\n`;
+The thing that really sets him apart is that he's not just technically skilled - he's got good software engineering practices too. He writes clean, maintainable code, thinks about testing and deployment, and understands the full development lifecycle. That's rare in someone his age.\n\n`;
   }
   
   // Check for project-related queries
@@ -123,31 +93,17 @@ These projects demonstrate Chan's **versatility** across multiple domains:
   
   // Check for achievement-related queries
   if (lowerQuery.includes('achievement') || lowerQuery.includes('award') || lowerQuery.includes('prize') || lowerQuery.includes('hackathon')) {
-    relevantInfo += `# 🏆 Achievements & Awards
+    relevantInfo += `Let me tell you about Chan's incredible achievements! He's really made a name for himself in the tech world.
 
-## 🥇 **Best Personal Project (CodeBuff)**
-**Prize:** $650 USD  
-**Event:** Nosu AI Hackathon  
-**Description:** Created an innovative AI-powered project that impressed judges with its technical sophistication and practical application.
+First off, he won **Best Personal Project** at the Nosu AI Hackathon for his CodeBuff project - that's a $650 prize! The judges were blown away by how he created an AI-powered platform that actually solved real problems. It wasn't just impressive technically, it was practical too.
 
-## 🏅 **Top 5 Individual**
-**Event:** Intercollegiate Programming Competition  
-**Achievement:** Demonstrated exceptional problem-solving and algorithmic skills in a competitive environment.
+Then there's his programming competition success - he made it to the **Top 5 Individual** at the Intercollegiate Programming Competition. That's no small feat! It shows he's not just good at coding, but he can think on his feet and solve complex algorithmic challenges under pressure.
 
-## 🎓 **AI Programming with Python Nanodegree**
-**Provider:** Udacity  
-**Focus:** Python, Machine Learning, AI Fundamentals  
-**Outcome:** Comprehensive expertise in modern AI development practices.
+He's also got this amazing **AI Programming with Python Nanodegree** from Udacity under his belt. It's not just a certificate - he actually learned the real stuff: Python, machine learning, AI fundamentals. You can tell he really knows his stuff when you talk to him about AI.
 
-## 📚 **Academic Excellence**
-**Performance:** 4.0 GPA  
-**Field:** Computer Science  
-**Institution:** Seminole State College of Florida  
-**Status:** Graduating 2025
+And get this - he's maintaining a **perfect 4.0 GPA** in Computer Science at Seminole State College of Florida! He's graduating in 2025, and he's not just getting good grades, he's really understanding the material. It's one thing to memorize, but another to actually grasp complex concepts.
 
----
-
-*These achievements demonstrate Chan's technical prowess, competitive spirit, and unwavering commitment to excellence in AI/ML and computer science.*\n\n`;
+What I love about Chan is that he's not just book-smart. He's got this competitive spirit that drives him to push boundaries, whether it's in hackathons, programming competitions, or his studies. He's the kind of person who doesn't just meet expectations - he exceeds them.\n\n`;
   }
   
   // Check for skills-related queries
