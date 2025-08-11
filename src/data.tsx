@@ -16,7 +16,7 @@ export const projects: Project[] = [
     id: 1,
     title: "Project Pæmon - AI Web App",
     description: "A Pokémon-inspired AI web app that generates personalized digital companions based on user personality traits. Co-developed at Nosu AI Hackathon, winning Best Personal Project (CodeBuff) with $650 USD prize. Features AI-generated visuals, descriptions, and music.",
-    technologies: ["Next.js", "OpenAI GPT-3.5", "Stable Diffusion", "TailwindCSS", "AI Integration", "Beatoven.ai"],
+    technologies: ["Next.js", "OpenAI GPT-5", "Stable Diffusion", "TailwindCSS", "AI Integration", "Beatoven.ai"],
     image: "https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/003/216/829/datas/original.png",
     github: "https://github.com/chanadinh",
     live: "https://project-paemon-31jm.vercel.app"
