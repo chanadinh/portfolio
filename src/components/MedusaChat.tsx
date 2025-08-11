@@ -367,10 +367,10 @@ Be helpful, conversational, and provide accurate information while maintaining a
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 overflow-hidden"
+          className="bg-white/15 backdrop-blur-xl rounded-3xl shadow-2xl border-2 border-white/30 overflow-hidden"
         >
           {/* Chat Header */}
-          <div className="bg-gradient-to-r from-white/20 to-white/10 px-6 py-4 border-b border-white/20">
+          <div className="bg-gradient-to-r from-white/25 to-white/15 px-6 py-4 border-b-2 border-white/30 shadow-lg">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-white/30 rounded-full flex items-center justify-center overflow-hidden backdrop-blur-sm">
                 <img src="/medusa.ico" alt="Medusa" className="w-8 h-8" />
@@ -404,12 +404,12 @@ Be helpful, conversational, and provide accurate information while maintaining a
                      message.error ? <AlertCircle className="w-4 h-4" /> : 
                      <img src="/medusa.ico" alt="Medusa" className="w-6 h-6" />}
                   </div>
-                  <div className={`rounded-2xl px-4 py-3 backdrop-blur-sm ${
+                  <div className={`rounded-2xl px-4 py-3 backdrop-blur-sm shadow-2xl ${
                     message.sender === 'user'
-                      ? 'bg-blue-600/80 text-white border border-blue-500/50'
+                      ? 'bg-blue-600/90 text-white border-2 border-blue-400/70 shadow-blue-500/50'
                       : message.error
-                        ? 'bg-red-600/80 text-white border border-red-500/50'
-                        : 'bg-gray-800/80 text-white border border-gray-700/50'
+                        ? 'bg-red-600/90 text-white border-2 border-red-400/70 shadow-red-500/50'
+                        : 'bg-gray-900/90 text-white border-2 border-gray-400/70 shadow-gray-500/50'
                   }`}>
                     <p className="text-sm leading-relaxed">{message.text}</p>
                     <p className={`text-xs mt-2 ${
@@ -434,7 +434,7 @@ Be helpful, conversational, and provide accurate information while maintaining a
                   <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center overflow-hidden border border-white/30">
                     <img src="/medusa.ico" alt="Medusa" className="w-6 h-6" />
                   </div>
-                  <div className="bg-gray-800/80 rounded-2xl px-4 py-3 border border-gray-700/50 backdrop-blur-sm">
+                  <div className="bg-gray-900/90 rounded-2xl px-4 py-3 border-2 border-gray-400/70 backdrop-blur-sm shadow-2xl shadow-gray-500/50">
                     <div className="flex space-x-1">
                       <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce"></div>
                       <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
@@ -449,7 +449,7 @@ Be helpful, conversational, and provide accurate information while maintaining a
           </div>
 
           {/* Input Area */}
-          <div className="border-t border-white/20 p-4 bg-gradient-to-t from-white/10 to-transparent">
+          <div className="border-t-2 border-white/30 p-4 bg-gradient-to-t from-white/15 to-transparent shadow-lg">
             <div className="flex space-x-3">
               <div className="flex-1 relative">
                 <textarea
@@ -457,7 +457,7 @@ Be helpful, conversational, and provide accurate information while maintaining a
                   onChange={(e) => setInputText(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Ask about Chan's experience, skills, projects, or anything else..."
-                  className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-xl focus:ring-2 focus:ring-white/50 focus:border-white/50 resize-none text-white placeholder-white/60 backdrop-blur-sm"
+                  className="w-full px-4 py-3 bg-white/25 border-2 border-white/40 rounded-xl focus:ring-2 focus:ring-white/60 focus:border-white/60 resize-none text-white placeholder-white/70 backdrop-blur-sm shadow-lg"
                   rows={1}
                   style={{ minHeight: '48px', maxHeight: '120px' }}
                 />
@@ -465,7 +465,7 @@ Be helpful, conversational, and provide accurate information while maintaining a
               <button
                 onClick={handleSendMessage}
                 disabled={!inputText.trim() || isTyping || !apiKey}
-                className="px-6 py-3 bg-white/30 text-white rounded-xl hover:bg-white/40 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center space-x-2 border border-white/40 backdrop-blur-sm"
+                className="px-6 py-3 bg-white/35 text-white rounded-xl hover:bg-white/45 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center space-x-2 border-2 border-white/50 backdrop-blur-sm shadow-lg"
               >
                 <Send className="w-4 h-4" />
                 <span className="hidden sm:inline">Send</span>
@@ -476,31 +476,31 @@ Be helpful, conversational, and provide accurate information while maintaining a
             <div className="mt-3 flex flex-wrap gap-2">
               <button
                 onClick={() => setInputText("Tell me about Chan's education and background")}
-                className="px-3 py-1 text-xs bg-white/20 hover:bg-white/30 text-white rounded-full transition-colors border border-white/30 backdrop-blur-sm"
+                className="px-3 py-1 text-xs bg-white/25 hover:bg-white/35 text-white rounded-full transition-colors border-2 border-white/40 backdrop-blur-sm shadow-md"
               >
                 Education
               </button>
               <button
                 onClick={() => setInputText("What are Chan's technical skills?")}
-                className="px-3 py-1 text-xs bg-white/20 hover:bg-white/30 text-white rounded-full transition-colors border border-white/30 backdrop-blur-sm"
+                className="px-3 py-1 text-xs bg-white/25 hover:bg-white/35 text-white rounded-full transition-colors border-2 border-white/40 backdrop-blur-sm shadow-md"
               >
                 Skills
               </button>
               <button
                 onClick={() => setInputText("Tell me about Chan's projects")}
-                className="px-3 py-1 text-xs bg-white/20 hover:bg-white/30 text-white rounded-full transition-colors border border-white/30 backdrop-blur-sm"
+                className="px-3 py-1 text-xs bg-white/25 hover:bg-white/35 text-white rounded-full transition-colors border-2 border-white/40 backdrop-blur-sm shadow-md"
               >
                 Projects
               </button>
               <button
                 onClick={() => setInputText("What are Chan's achievements?")}
-                className="px-3 py-1 text-xs bg-white/20 hover:bg-white/30 text-white rounded-full transition-colors border border-white/30 backdrop-blur-sm"
+                className="px-3 py-1 text-xs bg-white/25 hover:bg-white/35 text-white rounded-full transition-colors border-2 border-white/40 backdrop-blur-sm shadow-md"
               >
                 Achievements
               </button>
               <button
                 onClick={() => setInputText("How can I contact Chan?")}
-                className="px-3 py-1 text-xs bg-white/20 hover:bg-white/30 text-white rounded-full transition-colors border border-white/30 backdrop-blur-sm"
+                className="px-3 py-1 text-xs bg-white/25 hover:bg-white/35 text-white rounded-full transition-colors border-2 border-white/40 backdrop-blur-sm shadow-md"
               >
                 Contact
               </button>
@@ -513,7 +513,7 @@ Be helpful, conversational, and provide accurate information while maintaining a
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-8 bg-white/10 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border border-white/20"
+          className="mt-8 bg-white/15 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border-2 border-white/30"
         >
           <div className="text-center">
             <MessageCircle className="w-12 h-12 text-white mx-auto mb-4" />
@@ -524,7 +524,7 @@ Be helpful, conversational, and provide accurate information while maintaining a
             </p>
             
             {/* RAG Capabilities */}
-            <div className="mb-6 p-4 bg-white/10 rounded-lg border border-white/20 backdrop-blur-sm">
+            <div className="mb-6 p-4 bg-white/15 rounded-lg border-2 border-white/30 backdrop-blur-sm shadow-lg">
               <h4 className="font-semibold text-white mb-3">What I Know About Chan:</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-white/80">
                 <div className="flex items-center space-x-2">
