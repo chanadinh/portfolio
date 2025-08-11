@@ -23,12 +23,12 @@ const retrieveRelevantInfo = (query: string): string => {
   if (lowerQuery.includes('education') || lowerQuery.includes('degree') || lowerQuery.includes('university') || lowerQuery.includes('gpa')) {
     relevantInfo += `Here's what I know about Chan's education:
 
-**Degree:** ${KNOWLEDGE_BASE.education.degree}
-**University:** ${KNOWLEDGE_BASE.education.university}
-**Graduation:** ${KNOWLEDGE_BASE.education.graduation}
-**GPA:** ${KNOWLEDGE_BASE.education.gpa}
+Degree: ${KNOWLEDGE_BASE.education.degree}
+University: ${KNOWLEDGE_BASE.education.university}
+Graduation: ${KNOWLEDGE_BASE.education.graduation}
+GPA: ${KNOWLEDGE_BASE.education.gpa}
 
-**Relevant Courses:**
+Relevant Courses:
 ${KNOWLEDGE_BASE.education.relevant_courses.map(course => `• ${course}`).join('\n')}\n\n`;
   }
   
@@ -36,10 +36,10 @@ ${KNOWLEDGE_BASE.education.relevant_courses.map(course => `• ${course}`).join(
   if (lowerQuery.includes('experience') || lowerQuery.includes('work') || lowerQuery.includes('intern') || lowerQuery.includes('job')) {
     relevantInfo += `Here's Chan's work experience:
 
-**Current Role:** ${KNOWLEDGE_BASE.experience.current_role}
-**Previous Role:** ${KNOWLEDGE_BASE.experience.previous}
+Current Role: ${KNOWLEDGE_BASE.experience.current_role}
+Previous Role: ${KNOWLEDGE_BASE.experience.previous}
 
-**Technical Skills:**
+Technical Skills:
 ${KNOWLEDGE_BASE.experience.skills.map(skill => `• ${skill}`).join('\n')}\n\n`;
   }
   
@@ -47,44 +47,44 @@ ${KNOWLEDGE_BASE.experience.skills.map(skill => `• ${skill}`).join('\n')}\n\n`
   if (lowerQuery.includes('project') || lowerQuery.includes('portfolio') || lowerQuery.includes('work')) {
     relevantInfo += `Here are Chan's key projects:
 
-**Pæmon:** ${KNOWLEDGE_BASE.projects.paemon}
+Pæmon: ${KNOWLEDGE_BASE.projects.paemon}
 
-**MNIST Digit Classifier:** ${KNOWLEDGE_BASE.projects.mnist}
+MNIST Digit Classifier: ${KNOWLEDGE_BASE.projects.mnist}
 
-**Bike Sharing Demand Prediction:** ${KNOWLEDGE_BASE.projects.bike_sharing}
+Bike Sharing Demand Prediction: ${KNOWLEDGE_BASE.projects.bike_sharing}
 
-**Dog Breed Classifier:** ${KNOWLEDGE_BASE.projects.dog_classifier}
+Dog Breed Classifier: ${KNOWLEDGE_BASE.projects.dog_classifier}
 
-**Medusa Bot:** ${KNOWLEDGE_BASE.projects.medusa_bot}\n\n`;
+Medusa Bot: ${KNOWLEDGE_BASE.projects.medusa_bot}\n\n`;
   }
   
   // Check for achievement-related queries
   if (lowerQuery.includes('achievement') || lowerQuery.includes('award') || lowerQuery.includes('prize') || lowerQuery.includes('hackathon')) {
     relevantInfo += `Here are Chan's achievements:
 
-**Hackathon Success:** ${KNOWLEDGE_BASE.achievements.hackathon}
+Hackathon Success: ${KNOWLEDGE_BASE.achievements.hackathon}
 
-**Programming Competition:** ${KNOWLEDGE_BASE.achievements.programming}
+Programming Competition: ${KNOWLEDGE_BASE.achievements.programming}
 
-**AI Nanodegree:** ${KNOWLEDGE_BASE.achievements.nanodegree}
+AI Nanodegree: ${KNOWLEDGE_BASE.achievements.nanodegree}
 
-**Academic Excellence:** ${KNOWLEDGE_BASE.achievements.academic}\n\n`;
+Academic Excellence: ${KNOWLEDGE_BASE.achievements.academic}\n\n`;
   }
   
   // Check for skills-related queries
   if (lowerQuery.includes('skill') || lowerQuery.includes('technology') || lowerQuery.includes('programming') || lowerQuery.includes('language')) {
     relevantInfo += `Here are Chan's technical skills:
 
-**Programming Languages & Frameworks:**
+Programming Languages & Frameworks:
 ${KNOWLEDGE_BASE.experience.skills.slice(0, 4).map(skill => `• ${skill}`).join('\n')}
 
-**AI/ML & Data Science:**
+AI/ML & Data Science:
 ${KNOWLEDGE_BASE.experience.skills.slice(4, 8).map(skill => `• ${skill}`).join('\n')}
 
-**Computer Vision & NLP:**
+Computer Vision & NLP:
 ${KNOWLEDGE_BASE.experience.skills.slice(8, 10).map(skill => `• ${skill}`).join('\n')}
 
-**Development & Tools:**
+Development & Tools:
 ${KNOWLEDGE_BASE.experience.skills.slice(10).map(skill => `• ${skill}`).join('\n')}\n\n`;
   }
   
@@ -92,24 +92,24 @@ ${KNOWLEDGE_BASE.experience.skills.slice(10).map(skill => `• ${skill}`).join('
   if (lowerQuery.includes('contact') || lowerQuery.includes('email') || lowerQuery.includes('linkedin') || lowerQuery.includes('github')) {
     relevantInfo += `Here's how to contact Chan:
 
-**Email:** ${KNOWLEDGE_BASE.personal.email}
-**LinkedIn:** ${KNOWLEDGE_BASE.personal.linkedin}
-**GitHub:** ${KNOWLEDGE_BASE.personal.github}
-**Location:** ${KNOWLEDGE_BASE.personal.location}\n\n`;
+Email: ${KNOWLEDGE_BASE.personal.email}
+LinkedIn: ${KNOWLEDGE_BASE.personal.linkedin}
+GitHub: ${KNOWLEDGE_BASE.personal.github}
+Location: ${KNOWLEDGE_BASE.personal.location}\n\n`;
   }
   
   // Check for general personal queries
   if (lowerQuery.includes('who are you') || lowerQuery.includes('tell me about') || lowerQuery.includes('background') || lowerQuery.includes('yourself')) {
     relevantInfo += `Here's what I know about Chan:
 
-**Name:** ${KNOWLEDGE_BASE.personal.name}
-**Title:** ${KNOWLEDGE_BASE.personal.title}
-**Location:** ${KNOWLEDGE_BASE.personal.location}
+Name: ${KNOWLEDGE_BASE.personal.name}
+Title: ${KNOWLEDGE_BASE.personal.title}
+Location: ${KNOWLEDGE_BASE.personal.location}
 
-**Areas of Interest:**
+Areas of Interest:
 ${KNOWLEDGE_BASE.interests.map(interest => `• ${interest}`).join('\n')}
 
-**Education:** ${KNOWLEDGE_BASE.education.degree} at ${KNOWLEDGE_BASE.education.university} (${KNOWLEDGE_BASE.education.graduation}) with ${KNOWLEDGE_BASE.education.gpa} GPA\n\n`;
+Education: ${KNOWLEDGE_BASE.education.degree} at ${KNOWLEDGE_BASE.education.university} (${KNOWLEDGE_BASE.education.graduation}) with ${KNOWLEDGE_BASE.education.gpa} GPA\n\n`;
   }
   
   return relevantInfo;
