@@ -1,15 +1,27 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Calculator, Settings, Download, Share2 } from 'lucide-react';
 
 const Graphing: React.FC = () => {
   const calculatorRef = useRef<HTMLDivElement>(null);
   const calculatorInstanceRef = useRef<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasApiKey, setHasApiKey] = useState(true);
 
   useEffect(() => {
+    // Get API key from environment variable
+    const desmosApiKey = process.env.REACT_APP_DESMOS_API_KEY;
+    
+    if (!desmosApiKey) {
+      console.error('Desmos API key not found. Please set REACT_APP_DESMOS_API_KEY in your environment variables.');
+      setHasApiKey(false);
+      setIsLoading(false);
+      return;
+    }
+
     // Load Desmos API script
     const script = document.createElement('script');
-    script.src = 'https://www.desmos.com/api/v1.11/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6';
+    script.src = `https://www.desmos.com/api/v1.11/calculator.js?apiKey=${desmosApiKey}`;
     script.async = true;
     
     script.onload = () => {
@@ -62,6 +74,8 @@ const Graphing: React.FC = () => {
         calculator.setExpression({ id: 'welcome', latex: 'y=x^2', color: '#2d70b3' });
         calculator.setExpression({ id: 'line', latex: 'y=2x+1', color: '#388c46' });
         calculator.setExpression({ id: 'circle', latex: '(x-2)^2+(y-1)^2=4', color: '#6042a6' });
+        
+        setIsLoading(false);
       }
     };
     
@@ -211,18 +225,47 @@ const Graphing: React.FC = () => {
         </div>
 
         {/* Calculator Container */}
-        <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
-          <div 
-            ref={calculatorRef}
-            className="w-full h-[600px]"
-            style={{ minHeight: '600px' }}
-          />
-        </div>
+        {!hasApiKey ? (
+          <div className="bg-red-50 border-2 border-red-200 rounded-2xl p-8 text-center">
+            <div className="text-red-600 mb-4">
+              <Calculator className="w-16 h-16 mx-auto mb-4" />
+              <h3 className="text-xl font-semibold mb-2">API Key Required</h3>
+              <p className="text-red-700">
+                The Desmos API key is not configured. Please set the REACT_APP_DESMOS_API_KEY environment variable in Vercel.
+              </p>
+            </div>
+            <div className="bg-white rounded-lg p-4 text-sm text-gray-600">
+              <p className="font-medium mb-2">To get your API key:</p>
+              <ol className="list-decimal list-inside space-y-1 text-left max-w-md mx-auto">
+                <li>Email <a href="mailto:partnerships@desmos.com" className="text-blue-600 underline">partnerships@desmos.com</a></li>
+                <li>Request access to the Desmos API</li>
+                <li>Add the key to your Vercel environment variables</li>
+              </ol>
+            </div>
+          </div>
+        ) : (
+          <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden">
+            {isLoading ? (
+              <div className="w-full h-[600px] flex items-center justify-center">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                  <p className="text-gray-600">Loading Desmos Calculator...</p>
+                </div>
+              </div>
+            ) : (
+              <div 
+                ref={calculatorRef}
+                className="w-full h-[600px]"
+                style={{ minHeight: '600px' }}
+              />
+            )}
+          </div>
+        )}
 
         {/* Footer Info */}
         <div className="mt-8 text-center text-sm text-gray-500">
           <p>Powered by <a href="https://www.desmos.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline">Desmos</a> - The most advanced graphing calculator</p>
-          <p className="mt-1">This calculator is for educational and demonstration purposes. For production use, please obtain your own API key.</p>
+          <p className="mt-1">This calculator is for educational and demonstration purposes.</p>
         </div>
       </motion.main>
     </div>

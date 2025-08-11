@@ -46,6 +46,38 @@ A modern, responsive portfolio website showcasing my expertise in Machine Learni
    - REST API integration and event handling
    - Technologies: JavaScript, Node.js, Discord.js
 
+## 🔑 API Keys Configuration
+
+### Environment Variables
+Create a `.env` file in the root directory with your API keys:
+
+```bash
+# OpenAI API Key for Medusa Chat
+# Get your key from: https://platform.openai.com/api-keys
+REACT_APP_OPENAI_API_KEY=your_openai_api_key_here
+
+# Desmos API Key for Interactive Graphing Calculator
+# Get your key by emailing: partnerships@desmos.com
+REACT_APP_DESMOS_API_KEY=your_desmos_api_key_here
+```
+
+### API Key Setup
+
+#### OpenAI API Key
+1. Visit [OpenAI Platform](https://platform.openai.com/api-keys)
+2. Create a new API key
+3. Add it to your `.env` file as `REACT_APP_OPENAI_API_KEY`
+
+#### Desmos API Key
+1. Email [partnerships@desmos.com](mailto:partnerships@desmos.com)
+2. Request access to the Desmos API
+3. Add your API key to `.env` as `REACT_APP_DESMOS_API_KEY`
+
+### Development vs Production
+- **Development**: Uses demo keys if environment variables are not set
+- **Production**: Always use your own API keys for security and rate limits
+- **Vercel**: Set environment variables in the Vercel dashboard for production deployment
+
 ## 🚀 Getting Started
 
 ### Prerequisites
