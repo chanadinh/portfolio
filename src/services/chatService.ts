@@ -1,5 +1,8 @@
-import { Chat, IChat, IMessage } from '../models/Chat';
-import { connectDB } from '../config/database';
+// Chat Service - Frontend API Client
+// This service communicates with the backend API server
+// The backend handles MongoDB operations
+
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://your-vercel-domain.vercel.app/api';
 
 export class ChatService {
   private static instance: ChatService;
@@ -13,116 +16,94 @@ export class ChatService {
     return ChatService.instance;
   }
 
+  private async makeRequest(endpoint: string, options: RequestInit = {}) {
+    try {
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          ...options.headers,
+        },
+        ...options,
+      });
+
+      if (!response.ok) {
+        throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error(`API request failed for ${endpoint}:`, error);
+      throw error;
+    }
+  }
+
   async saveMessage(
     sessionId: string,
     role: 'user' | 'assistant',
     content: string,
-    ipAddress: string, // Required IP address
+    ipAddress: string,
     tokens?: number,
     userId?: string,
     metadata?: any
-  ): Promise<IChat> {
-    await connectDB();
-
-    const message: IMessage = {
+  ): Promise<any> {
+    const payload = {
+      sessionId,
       role,
       content,
-      timestamp: new Date(),
-      tokens: tokens || 0
+      ipAddress,
+      tokens,
+      userId,
+      metadata
     };
 
-    // Try to find existing chat session by IP address first, then by sessionId
-    let chat = await Chat.findOne({ 
-      $or: [
-        { ipAddress, sessionId },
-        { ipAddress }
-      ]
+    return this.makeRequest('/chat/message', {
+      method: 'POST',
+      body: JSON.stringify(payload)
     });
-
-    if (chat) {
-      // Add message to existing session
-      chat.messages.push(message);
-      chat.totalTokens += (tokens || 0);
-      if (metadata) {
-        chat.metadata = { ...chat.metadata, ...metadata };
-      }
-      // Update sessionId if it changed
-      if (chat.sessionId !== sessionId) {
-        chat.sessionId = sessionId;
-      }
-    } else {
-      // Create new chat session
-      chat = new Chat({
-        sessionId,
-        ipAddress,
-        userId,
-        messages: [message],
-        totalTokens: tokens || 0,
-        metadata
-      });
-    }
-
-    return await chat.save();
   }
 
-  async getChatHistory(sessionId: string): Promise<IChat | null> {
-    await connectDB();
-    return await Chat.findOne({ sessionId }).sort({ createdAt: -1 });
+  async getChatHistory(sessionId: string): Promise<any> {
+    return this.makeRequest(`/chat/session/${sessionId}`);
   }
 
-  async getChatHistoryByIP(ipAddress: string, limit: number = 50): Promise<IChat[]> {
-    await connectDB();
-    return await Chat.find({ ipAddress })
-      .sort({ updatedAt: -1 })
-      .limit(limit);
+  async getChatHistoryByIP(ipAddress: string, limit: number = 50): Promise<any> {
+    return this.makeRequest(`/chat/history/${ipAddress}?limit=${limit}`);
   }
 
-  async getUserChatHistory(userId: string, limit: number = 50): Promise<IChat[]> {
-    await connectDB();
-    return await Chat.find({ userId })
-      .sort({ updatedAt: -1 })
-      .limit(limit);
+  async getUserChatHistory(userId: string, limit: number = 50): Promise<any> {
+    // Note: This would need to be implemented on the backend
+    // For now, we'll return an empty array
+    console.warn('getUserChatHistory not implemented in backend yet');
+    return { success: true, data: [] };
   }
 
-  async getSessionChatHistory(sessionId: string, limit: number = 100): Promise<IMessage[]> {
-    await connectDB();
-    const chat = await Chat.findOne({ sessionId })
-      .select('messages')
-      .sort({ 'messages.timestamp': -1 })
-      .limit(limit);
-    
-    return chat?.messages || [];
+  async getSessionChatHistory(sessionId: string, limit: number = 100): Promise<any> {
+    const result = await this.makeRequest(`/chat/session/${sessionId}`);
+    return result.data?.messages || [];
   }
 
   async deleteChat(sessionId: string): Promise<boolean> {
-    await connectDB();
-    const result = await Chat.deleteOne({ sessionId });
-    return result.deletedCount > 0;
+    // Note: This would need to be implemented on the backend
+    console.warn('deleteChat not implemented in backend yet');
+    return false;
   }
 
   async deleteChatsByIP(ipAddress: string): Promise<number> {
-    await connectDB();
-    const result = await Chat.deleteMany({ ipAddress });
-    return result.deletedCount;
+    const result = await this.makeRequest(`/chat/ip/${ipAddress}`, {
+      method: 'DELETE'
+    });
+    return result.deletedCount || 0;
   }
 
   async deleteUserChats(userId: string): Promise<number> {
-    await connectDB();
-    const result = await Chat.deleteMany({ userId });
-    return result.deletedCount;
+    // Note: This would need to be implemented on the backend
+    console.warn('deleteUserChats not implemented in backend yet');
+    return 0;
   }
 
-  async getChatStats(sessionId: string): Promise<{
-    totalMessages: number;
-    totalTokens: number;
-    userMessages: number;
-    assistantMessages: number;
-    sessionDuration: number;
-  }> {
-    await connectDB();
-    const chat = await Chat.findOne({ sessionId });
-    
-    if (!chat) {
+  async getChatStats(sessionId: string): Promise<any> {
+    const result = await this.makeRequest(`/chat/session/${sessionId}`);
+    if (!result.data) {
       return {
         totalMessages: 0,
         totalTokens: 0,
@@ -132,9 +113,10 @@ export class ChatService {
       };
     }
 
-    const userMessages = chat.messages.filter(m => m.role === 'user').length;
-    const assistantMessages = chat.messages.filter(m => m.role === 'assistant').length;
-    const sessionDuration = chat.updatedAt.getTime() - chat.createdAt.getTime();
+    const chat = result.data;
+    const userMessages = chat.messages.filter((m: any) => m.role === 'user').length;
+    const assistantMessages = chat.messages.filter((m: any) => m.role === 'assistant').length;
+    const sessionDuration = new Date(chat.updatedAt).getTime() - new Date(chat.createdAt).getTime();
 
     return {
       totalMessages: chat.messages.length,
@@ -145,96 +127,37 @@ export class ChatService {
     };
   }
 
-  async getChatStatsByIP(ipAddress: string): Promise<{
-    totalSessions: number;
-    totalMessages: number;
-    totalTokens: number;
-    averageMessagesPerSession: number;
-    firstSeen: Date | null;
-    lastSeen: Date | null;
-  }> {
-    await connectDB();
-    const chats = await Chat.find({ ipAddress }).sort({ createdAt: 1 });
-    
-    if (chats.length === 0) {
-      return {
-        totalSessions: 0,
-        totalMessages: 0,
-        totalTokens: 0,
-        averageMessagesPerSession: 0,
-        firstSeen: null,
-        lastSeen: null
-      };
-    }
-
-    const totalMessages = chats.reduce((sum, chat) => sum + chat.messages.length, 0);
-    const totalTokens = chats.reduce((sum, chat) => sum + chat.totalTokens, 0);
-    const firstSeen = chats[0].createdAt;
-    const lastSeen = chats[chats.length - 1].updatedAt;
-
-    return {
-      totalSessions: chats.length,
-      totalMessages,
-      totalTokens,
-      averageMessagesPerSession: Math.round(totalMessages / chats.length * 100) / 100,
-      firstSeen,
-      lastSeen
-    };
+  async getChatStatsByIP(ipAddress: string): Promise<any> {
+    return this.makeRequest(`/chat/stats/${ipAddress}`);
   }
 
-  async searchChats(query: string, userId?: string, ipAddress?: string): Promise<IChat[]> {
-    await connectDB();
+  async searchChats(query: string, userId?: string, ipAddress?: string): Promise<any> {
+    const params = new URLSearchParams({ query });
+    if (ipAddress) params.append('ipAddress', ipAddress);
     
-    const searchQuery: any = {
-      'messages.content': { $regex: query, $options: 'i' }
-    };
-
-    if (userId) {
-      searchQuery.userId = userId;
-    }
-
-    if (ipAddress) {
-      searchQuery.ipAddress = ipAddress;
-    }
-
-    return await Chat.find(searchQuery)
-      .sort({ updatedAt: -1 })
-      .limit(20);
+    return this.makeRequest(`/chat/search?${params.toString()}`);
   }
 
   async getUniqueIPs(limit: number = 100): Promise<string[]> {
-    await connectDB();
-    const ips = await Chat.distinct('ipAddress');
-    return ips.slice(0, limit);
+    const result = await this.makeRequest(`/chat/ips?limit=${limit}`);
+    return result.data || [];
   }
 
-  async getIPActivitySummary(limit: number = 50): Promise<Array<{
-    ipAddress: string;
-    totalSessions: number;
-    totalMessages: number;
-    lastActivity: Date;
-  }>> {
-    await connectDB();
-    
-    const pipeline: any[] = [
-      { $group: {
-        _id: '$ipAddress',
-        totalSessions: { $sum: 1 },
-        totalMessages: { $sum: { $size: '$messages' } },
-        lastActivity: { $max: '$updatedAt' }
-      }},
-      { $sort: { lastActivity: -1 } },
-      { $limit: limit },
-      { $project: {
-        _id: 0,
-        ipAddress: '$_id',
-        totalSessions: 1,
-        totalMessages: 1,
-        lastActivity: 1
-      }}
-    ];
+  async getIPActivitySummary(limit: number = 50): Promise<any> {
+    // Note: This would need to be implemented on the backend
+    // For now, we'll return an empty array
+    console.warn('getIPActivitySummary not implemented in backend yet');
+    return [];
+  }
 
-    return await Chat.aggregate(pipeline);
+  // Health check method
+  async healthCheck(): Promise<boolean> {
+    try {
+      const result = await this.makeRequest('/health');
+      return result.status === 'OK';
+    } catch (error) {
+      return false;
+    }
   }
 }
 
