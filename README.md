@@ -73,10 +73,17 @@ REACT_APP_DESMOS_API_KEY=your_desmos_api_key_here
 2. Request access to the Desmos API
 3. Add your API key to `.env` as `REACT_APP_DESMOS_API_KEY`
 
+#### MongoDB Connection
+1. Create a MongoDB Atlas account at [MongoDB Atlas](https://www.mongodb.com/atlas)
+2. Create a new cluster (free tier available)
+3. Get your connection string from the cluster
+4. Add it to `.env` as `REACT_APP_MONGODB_URI`
+
 ### Development vs Production
 - **Development**: Uses demo keys if environment variables are not set
 - **Production**: Always use your own API keys for security and rate limits
 - **Vercel**: Set environment variables in the Vercel dashboard for production deployment
+- **MongoDB**: Chat history will be automatically stored and retrieved from your MongoDB database
 
 ## 🚀 Getting Started
 
