@@ -324,15 +324,15 @@ Be helpful, conversational, and provide accurate information while maintaining a
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen">
       {/* Header */}
-      <header className="bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm">
+      <header className="bg-white/20 backdrop-blur-xl border-b border-white/30 shadow-lg">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <a 
                 href="/"
-                className="flex items-center space-x-2 text-gray-600 hover:text-primary-600 transition-colors"
+                className="flex items-center space-x-2 text-white/90 hover:text-white transition-colors"
               >
                 <ArrowLeft className="w-5 h-5" />
                 <span>Back to Portfolio</span>
@@ -340,17 +340,17 @@ Be helpful, conversational, and provide accurate information while maintaining a
             </div>
             <div className="flex items-center space-x-3">
               <img src="/medusa.ico" alt="Medusa" className="w-8 h-8" />
-              <h1 className="text-2xl font-bold text-gray-900">Medusa Chat</h1>
+              <h1 className="text-2xl font-bold text-white">Medusa Chat</h1>
             </div>
             <div className="flex items-center space-x-2">
               {process.env.REACT_APP_OPENAI_API_KEY ? (
-                <span className="text-sm text-green-600 bg-green-100 px-2 py-1 rounded-full">
+                <span className="text-sm text-green-200 bg-green-500/20 backdrop-blur-sm px-3 py-1 rounded-full border border-green-400/30">
                   Production Mode
                 </span>
               ) : (
                 <button
                   onClick={clearApiKey}
-                  className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+                  className="text-sm text-white/70 hover:text-white transition-colors"
                   title="Change API Key"
                 >
                   Change Key
@@ -367,12 +367,12 @@ Be helpful, conversational, and provide accurate information while maintaining a
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden"
+          className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 overflow-hidden"
         >
           {/* Chat Header */}
-          <div className="bg-gradient-to-r from-primary-600 to-accent-600 px-6 py-4">
+          <div className="bg-gradient-to-r from-white/20 to-white/10 px-6 py-4 border-b border-white/20">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center overflow-hidden">
+              <div className="w-10 h-10 bg-white/30 rounded-full flex items-center justify-center overflow-hidden backdrop-blur-sm">
                 <img src="/medusa.ico" alt="Medusa" className="w-8 h-8" />
               </div>
               <div>
@@ -383,7 +383,7 @@ Be helpful, conversational, and provide accurate information while maintaining a
           </div>
 
           {/* Messages */}
-          <div className="h-96 overflow-y-auto p-6 space-y-4">
+          <div className="h-96 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-white/5 to-white/10">
             {messages.map((message) => (
               <motion.div
                 key={message.id}
@@ -393,28 +393,28 @@ Be helpful, conversational, and provide accurate information while maintaining a
                 className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div className={`flex items-start space-x-3 max-w-xs lg:max-w-md ${message.sender === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden backdrop-blur-sm ${
                     message.sender === 'user' 
-                      ? 'bg-primary-600 text-white' 
+                      ? 'bg-white/30 text-white border border-white/40' 
                       : message.error 
-                        ? 'bg-red-500 text-white'
-                        : 'bg-gray-200'
+                        ? 'bg-red-500/80 text-white border border-red-400/50'
+                        : 'bg-white/20 text-white border border-white/30'
                   }`}>
                     {message.sender === 'user' ? <User className="w-4 h-4" /> : 
                      message.error ? <AlertCircle className="w-4 h-4" /> : 
                      <img src="/medusa.ico" alt="Medusa" className="w-6 h-6" />}
                   </div>
-                  <div className={`rounded-2xl px-4 py-3 ${
+                  <div className={`rounded-2xl px-4 py-3 backdrop-blur-sm ${
                     message.sender === 'user'
-                      ? 'bg-primary-600 text-white'
+                      ? 'bg-white/30 text-white border border-white/40'
                       : message.error
-                        ? 'bg-red-100 text-red-800'
-                        : 'bg-gray-100 text-gray-800'
+                        ? 'bg-red-500/20 text-red-200 border border-red-400/30'
+                        : 'bg-white/20 text-white border border-white/30'
                   }`}>
                     <p className="text-sm leading-relaxed">{message.text}</p>
                     <p className={`text-xs mt-2 ${
-                      message.sender === 'user' ? 'text-primary-100' : 
-                      message.error ? 'text-red-600' : 'text-gray-500'
+                      message.sender === 'user' ? 'text-white/70' : 
+                      message.error ? 'text-red-300' : 'text-white/60'
                     }`}>
                       {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </p>
@@ -431,14 +431,14 @@ Be helpful, conversational, and provide accurate information while maintaining a
                 className="flex justify-start"
               >
                 <div className="flex items-start space-x-3">
-                  <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+                  <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center overflow-hidden border border-white/30">
                     <img src="/medusa.ico" alt="Medusa" className="w-6 h-6" />
                   </div>
-                  <div className="bg-gray-100 rounded-2xl px-4 py-3">
+                  <div className="bg-white/20 rounded-2xl px-4 py-3 border border-white/30 backdrop-blur-sm">
                     <div className="flex space-x-1">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                      <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                     </div>
                   </div>
                 </div>
@@ -449,7 +449,7 @@ Be helpful, conversational, and provide accurate information while maintaining a
           </div>
 
           {/* Input Area */}
-          <div className="border-t border-gray-200 p-4">
+          <div className="border-t border-white/20 p-4 bg-gradient-to-t from-white/10 to-transparent">
             <div className="flex space-x-3">
               <div className="flex-1 relative">
                 <textarea
@@ -457,7 +457,7 @@ Be helpful, conversational, and provide accurate information while maintaining a
                   onChange={(e) => setInputText(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Ask about Chan's experience, skills, projects, or anything else..."
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"
+                  className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-xl focus:ring-2 focus:ring-white/50 focus:border-white/50 resize-none text-white placeholder-white/60 backdrop-blur-sm"
                   rows={1}
                   style={{ minHeight: '48px', maxHeight: '120px' }}
                 />
@@ -465,7 +465,7 @@ Be helpful, conversational, and provide accurate information while maintaining a
               <button
                 onClick={handleSendMessage}
                 disabled={!inputText.trim() || isTyping || !apiKey}
-                className="px-6 py-3 bg-primary-600 text-white rounded-xl hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center space-x-2"
+                className="px-6 py-3 bg-white/30 text-white rounded-xl hover:bg-white/40 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center space-x-2 border border-white/40 backdrop-blur-sm"
               >
                 <Send className="w-4 h-4" />
                 <span className="hidden sm:inline">Send</span>
@@ -476,31 +476,31 @@ Be helpful, conversational, and provide accurate information while maintaining a
             <div className="mt-3 flex flex-wrap gap-2">
               <button
                 onClick={() => setInputText("Tell me about Chan's education and background")}
-                className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors"
+                className="px-3 py-1 text-xs bg-white/20 hover:bg-white/30 text-white rounded-full transition-colors border border-white/30 backdrop-blur-sm"
               >
                 Education
               </button>
               <button
                 onClick={() => setInputText("What are Chan's technical skills?")}
-                className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors"
+                className="px-3 py-1 text-xs bg-white/20 hover:bg-white/30 text-white rounded-full transition-colors border border-white/30 backdrop-blur-sm"
               >
                 Skills
               </button>
               <button
                 onClick={() => setInputText("Tell me about Chan's projects")}
-                className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors"
+                className="px-3 py-1 text-xs bg-white/20 hover:bg-white/30 text-white rounded-full transition-colors border border-white/30 backdrop-blur-sm"
               >
                 Projects
               </button>
               <button
                 onClick={() => setInputText("What are Chan's achievements?")}
-                className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors"
+                className="px-3 py-1 text-xs bg-white/20 hover:bg-white/30 text-white rounded-full transition-colors border border-white/30 backdrop-blur-sm"
               >
                 Achievements
               </button>
               <button
                 onClick={() => setInputText("How can I contact Chan?")}
-                className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors"
+                className="px-3 py-1 text-xs bg-white/20 hover:bg-white/30 text-white rounded-full transition-colors border border-white/30 backdrop-blur-sm"
               >
                 Contact
               </button>
@@ -513,42 +513,42 @@ Be helpful, conversational, and provide accurate information while maintaining a
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-8 bg-white rounded-xl p-6 shadow-lg border border-gray-200"
+          className="mt-8 bg-white/10 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border border-white/20"
         >
           <div className="text-center">
-            <MessageCircle className="w-12 h-12 text-primary-600 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">About Medusa Chat</h3>
-            <p className="text-gray-600 mb-4">
+            <MessageCircle className="w-12 h-12 text-white mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-white mb-2">About Medusa Chat</h3>
+            <p className="text-white/80 mb-4">
               This is an AI-powered chatbot powered by OpenAI's GPT-5 Chat model with RAG capabilities. 
               I have access to Chan Dinh's professional information and can answer questions about his experience, skills, projects, and achievements.
             </p>
             
             {/* RAG Capabilities */}
-            <div className="mb-6 p-4 bg-blue-50 rounded-lg">
-              <h4 className="font-semibold text-blue-900 mb-3">What I Know About Chan:</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-blue-800">
+            <div className="mb-6 p-4 bg-white/10 rounded-lg border border-white/20 backdrop-blur-sm">
+              <h4 className="font-semibold text-white mb-3">What I Know About Chan:</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-white/80">
                 <div className="flex items-center space-x-2">
-                  <GraduationCap className="w-4 h-4 text-blue-600" />
+                  <GraduationCap className="w-4 h-4 text-white" />
                   <span>Education & GPA</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Briefcase className="w-4 h-4 text-blue-600" />
+                  <Briefcase className="w-4 h-4 text-white" />
                   <span>Work Experience</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Code className="w-4 h-4 text-blue-600" />
+                  <Code className="w-4 h-4 text-white" />
                   <span>Technical Skills</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Database className="w-4 h-4 text-blue-600" />
+                  <Database className="w-4 h-4 text-white" />
                   <span>Projects & Portfolio</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Award className="w-4 h-4 text-blue-600" />
+                  <Award className="w-4 h-4 text-white" />
                   <span>Achievements & Awards</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Linkedin className="w-4 h-4 text-blue-600" />
+                  <Linkedin className="w-4 h-4 text-white" />
                   <span>Contact & LinkedIn</span>
                 </div>
               </div>
