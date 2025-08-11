@@ -1,42 +1,14 @@
 // Vercel Serverless Function - Save Chat Message
 // This replaces the Express.js POST /api/chat/message endpoint
 
-import { MongoClient, ServerApiVersion } from 'mongodb';
+const { MongoClient, ServerApiVersion } = require('mongodb');
 
-const uri = process.env.REACT_APP_MONGODB_URI || process.env.MONGODB_URI;
-
-let client;
-let db;
-
-async function connectDB() {
-  if (db) return db;
-  
-  try {
-    client = new MongoClient(uri, {
-      serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true,
-      }
-    });
-    
-    await client.connect();
-    db = client.db('portfolio');
-    
-    return db;
-  } catch (error) {
-    console.error('MongoDB connection failed:', error);
-    throw error;
-  }
-}
-
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-  // Handle preflight request
   if (req.method === 'OPTIONS') {
     res.status(200).end();
     return;
@@ -50,70 +22,96 @@ export default async function handler(req, res) {
     const { sessionId, role, content, ipAddress, tokens, userId, metadata } = req.body;
     
     if (!sessionId || !role || !content || !ipAddress) {
-      return res.status(400).json({ 
-        error: 'Missing required fields: sessionId, role, content, ipAddress' 
+      return res.status(400).json({
+        success: false,
+        error: 'Missing required fields: sessionId, role, content, ipAddress'
       });
     }
 
-    const database = await connectDB();
-    const collection = database.collection('Chat');
-    
-    // Try to find existing chat session by IP address first, then by sessionId
-    let chat = await collection.findOne({ 
-      $or: [
-        { ipAddress, sessionId },
-        { ipAddress }
-      ]
+    const uri = process.env.MONGODB_URI;
+    if (!uri) {
+      throw new Error('MONGODB_URI environment variable is required');
+    }
+
+    const client = new MongoClient(uri, {
+      serverApi: {
+        version: ServerApiVersion.v1,
+        strict: true,
+        deprecationErrors: true,
+      }
     });
 
-    const message = {
-      role,
-      content,
-      timestamp: new Date(),
-      tokens: tokens || 0
-    };
+    await client.connect();
+    const database = client.db('portfolio');
+    const collection = database.collection('Chat');
+    
+    // Find existing chat session or create new one
+    const existingChat = await collection.findOne({ 
+      sessionId, 
+      ipAddress 
+    });
 
-    if (chat) {
-      // Add message to existing session
-      chat.messages.push(message);
-      chat.totalTokens += (tokens || 0);
-      if (metadata) {
-        chat.metadata = { ...chat.metadata, ...metadata };
-      }
-      // Update sessionId if it changed
-      if (chat.sessionId !== sessionId) {
-        chat.sessionId = sessionId;
-      }
-      
-      await collection.replaceOne({ _id: chat._id }, chat);
+    if (existingChat) {
+      // Update existing chat
+      const result = await collection.updateOne(
+        { sessionId, ipAddress },
+        {
+          $push: {
+            messages: {
+              role,
+              content,
+              timestamp: new Date(),
+              tokens: tokens || 0
+            }
+          },
+          $set: {
+            updatedAt: new Date(),
+            totalTokens: (existingChat.totalTokens || 0) + (tokens || 0)
+          }
+        }
+      );
+
+      await client.close();
+
+      res.json({
+        success: true,
+        message: 'Message added to existing chat session',
+        sessionId,
+        ipAddress
+      });
     } else {
       // Create new chat session
       const newChat = {
         sessionId,
         ipAddress,
-        userId,
-        messages: [message],
-        totalTokens: tokens || 0,
-        metadata,
+        messages: [{
+          role,
+          content,
+          timestamp: new Date(),
+          tokens: tokens || 0
+        }],
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        totalTokens: tokens || 0
       };
-      
-      await collection.insertOne(newChat);
-    }
 
-    res.status(200).json({ 
-      success: true, 
-      message: 'Message saved successfully',
-      timestamp: new Date().toISOString()
-    });
-    
+      const result = await collection.insertOne(newChat);
+      await client.close();
+
+      res.json({
+        success: true,
+        message: 'New chat session created',
+        sessionId,
+        ipAddress,
+        chatId: result.insertedId
+      });
+    }
   } catch (error) {
     console.error('Error saving message:', error);
-    res.status(500).json({ error: 'Failed to save message' });
-  } finally {
-    if (client) {
-      await client.close();
-    }
+    res.status(500).json({
+      success: false,
+      error: 'Failed to save message',
+      details: error.message
+    });
   }
-}
+};

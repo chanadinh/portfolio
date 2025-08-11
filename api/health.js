@@ -1,75 +1,49 @@
 // Vercel Serverless Function - Health Check
 // This replaces the Express.js health endpoint
 
-import { MongoClient, ServerApiVersion } from 'mongodb';
+const { MongoClient, ServerApiVersion } = require('mongodb');
 
-const uri = process.env.REACT_APP_MONGODB_URI || process.env.MONGODB_URI;
+module.exports = async (req, res) => {
+  // Enable CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-let client;
-let db;
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
 
-async function connectDB() {
-  if (db) return db;
-  
   try {
-    client = new MongoClient(uri, {
+    const uri = process.env.MONGODB_URI;
+    if (!uri) {
+      throw new Error('MONGODB_URI environment variable is required');
+    }
+
+    const client = new MongoClient(uri, {
       serverApi: {
         version: ServerApiVersion.v1,
         strict: true,
         deprecationErrors: true,
       }
     });
-    
+
     await client.connect();
-    db = client.db('portfolio');
-    
-    // Test the connection
-    await db.command({ ping: 1 });
-    
-    return db;
-  } catch (error) {
-    console.error('MongoDB connection failed:', error);
-    throw error;
-  }
-}
+    await client.db('admin').command({ ping: 1 });
+    await client.close();
 
-export default async function handler(req, res) {
-  // Enable CORS
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-  // Handle preflight request
-  if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
-  }
-
-  if (req.method !== 'GET') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  try {
-    const database = await connectDB();
-    
     res.status(200).json({
       status: 'OK',
-      message: 'Portfolio Chat API is running',
       timestamp: new Date().toISOString(),
-      database: database ? 'Connected' : 'Disconnected',
-      environment: process.env.NODE_ENV || 'development'
+      database: 'Connected',
+      uptime: process.uptime ? process.uptime() : 'N/A'
     });
   } catch (error) {
     console.error('Health check failed:', error);
     res.status(500).json({
       status: 'ERROR',
-      message: 'Health check failed',
       error: error.message,
       timestamp: new Date().toISOString()
     });
-  } finally {
-    if (client) {
-      await client.close();
-    }
   }
-}
+};
