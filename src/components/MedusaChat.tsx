@@ -19,7 +19,7 @@ interface MedusaChatProps {
 const getBackgroundComplementaryColors = (backgroundStyle: string) => {
   // Default colors for fallback
   let userGradient = 'from-blue-600/95 to-purple-600/95';
-  let botGradient = 'from-gray-800/95 to-slate-800/95';
+  let botGradient = 'from-gray-700/95 to-slate-700/95';
   let errorGradient = 'from-red-600/95 to-pink-600/95';
   let userBorder = 'border-blue-300/80';
   let botBorder = 'border-gray-300/80';
@@ -30,93 +30,93 @@ const getBackgroundComplementaryColors = (backgroundStyle: string) => {
 
   // Detect background type and set complementary colors
   if (backgroundStyle.includes('blue') && backgroundStyle.includes('indigo')) {
-    // Blue/Indigo background - use warm complementary colors
-    userGradient = 'from-orange-600/95 to-red-600/95';
-    botGradient = 'from-amber-800/95 to-orange-800/95';
-    errorGradient = 'from-pink-600/95 to-rose-600/95';
-    userBorder = 'border-orange-300/80';
-    botBorder = 'border-amber-300/80';
-    errorBorder = 'border-pink-300/80';
-    userShadow = 'shadow-orange-400/60';
-    botShadow = 'shadow-amber-400/60';
-    errorShadow = 'shadow-pink-400/60';
+    // Blue/Indigo background - use moderate dark blue tones
+    userGradient = 'from-blue-700/95 to-indigo-700/95';
+    botGradient = 'from-slate-700/95 to-blue-700/95';
+    errorGradient = 'from-red-700/95 to-pink-700/95';
+    userBorder = 'border-blue-400/80';
+    botBorder = 'border-slate-400/80';
+    errorBorder = 'border-red-400/80';
+    userShadow = 'shadow-blue-500/60';
+    botShadow = 'shadow-slate-500/60';
+    errorShadow = 'shadow-red-500/60';
   } else if (backgroundStyle.includes('red') && backgroundStyle.includes('yellow')) {
-    // Red/Yellow background - use cool complementary colors
-    userGradient = 'from-blue-600/95 to-cyan-600/95';
-    botGradient = 'from-slate-800/95 to-blue-800/95';
-    errorGradient = 'from-purple-600/95 to-indigo-600/95';
-    userBorder = 'border-blue-300/80';
-    botBorder = 'border-slate-300/80';
-    errorBorder = 'border-purple-300/80';
-    userShadow = 'shadow-blue-400/60';
-    botShadow = 'shadow-slate-400/60';
-    errorShadow = 'shadow-purple-400/60';
+    // Red/Yellow background - use moderate dark red tones
+    userGradient = 'from-red-700/95 to-orange-700/95';
+    botGradient = 'from-orange-700/95 to-red-700/95';
+    errorGradient = 'from-pink-700/95 to-rose-700/95';
+    userBorder = 'border-red-400/80';
+    botBorder = 'border-orange-400/80';
+    errorBorder = 'border-pink-400/80';
+    userShadow = 'shadow-red-500/60';
+    botShadow = 'shadow-orange-500/60';
+    errorShadow = 'shadow-pink-500/60';
   } else if (backgroundStyle.includes('green') && backgroundStyle.includes('blue')) {
-    // Green/Blue background - use warm complementary colors
-    userGradient = 'from-pink-600/95 to-rose-600/95';
-    botGradient = 'from-red-800/95 to-pink-800/95';
-    errorGradient = 'from-orange-600/95 to-yellow-600/95';
-    userBorder = 'border-pink-300/80';
-    botBorder = 'border-red-300/80';
-    errorBorder = 'border-orange-300/80';
-    userShadow = 'shadow-pink-400/60';
-    botShadow = 'shadow-red-400/60';
-    errorShadow = 'shadow-orange-400/60';
+    // Green/Blue background - use moderate dark green tones
+    userGradient = 'from-green-700/95 to-teal-700/95';
+    botGradient = 'from-teal-700/95 to-green-700/95';
+    errorGradient = 'from-emerald-700/95 to-cyan-700/95';
+    userBorder = 'border-green-400/80';
+    botBorder = 'border-teal-400/80';
+    errorBorder = 'border-emerald-400/80';
+    userShadow = 'shadow-green-500/60';
+    botShadow = 'shadow-teal-500/60';
+    errorShadow = 'shadow-emerald-500/60';
   } else if (backgroundStyle.includes('purple') && backgroundStyle.includes('pink')) {
-    // Purple/Pink background - use green complementary colors
-    userGradient = 'from-green-600/95 to-emerald-600/95';
-    botGradient = 'from-teal-800/95 to-green-800/95';
-    errorGradient = 'from-cyan-600/95 to-blue-600/95';
-    userBorder = 'border-green-300/80';
-    botBorder = 'border-teal-300/80';
-    errorBorder = 'border-cyan-300/80';
-    userShadow = 'shadow-green-400/60';
-    botShadow = 'shadow-teal-400/60';
-    errorShadow = 'shadow-cyan-400/60';
+    // Purple/Pink background - use moderate dark purple tones
+    userGradient = 'from-purple-700/95 to-violet-700/95';
+    botGradient = 'from-violet-700/95 to-purple-700/95';
+    errorGradient = 'from-fuchsia-700/95 to-pink-700/95';
+    userBorder = 'border-purple-400/80';
+    botBorder = 'border-violet-400/80';
+    errorBorder = 'border-fuchsia-400/80';
+    userShadow = 'shadow-purple-500/60';
+    botShadow = 'shadow-violet-500/60';
+    errorShadow = 'shadow-fuchsia-500/60';
   } else if (backgroundStyle.includes('orange') && backgroundStyle.includes('yellow')) {
-    // Orange/Yellow background - use cool complementary colors
-    userGradient = 'from-indigo-600/95 to-purple-600/95';
-    botGradient = 'from-slate-800/95 to-indigo-800/95';
-    errorGradient = 'from-blue-600/95 to-cyan-600/95';
-    userBorder = 'border-indigo-300/80';
-    botBorder = 'border-slate-300/80';
-    errorBorder = 'border-blue-300/80';
-    userShadow = 'shadow-indigo-400/60';
-    botShadow = 'shadow-slate-400/60';
-    errorShadow = 'shadow-blue-400/60';
+    // Orange/Yellow background - use moderate dark orange tones
+    userGradient = 'from-orange-700/95 to-amber-700/95';
+    botGradient = 'from-amber-700/95 to-orange-700/95';
+    errorGradient = 'from-yellow-700/95 to-orange-700/95';
+    userBorder = 'border-orange-400/80';
+    botBorder = 'border-amber-400/80';
+    errorBorder = 'border-yellow-400/80';
+    userShadow = 'shadow-orange-500/60';
+    botShadow = 'shadow-amber-500/60';
+    errorShadow = 'shadow-yellow-500/60';
   } else if (backgroundStyle.includes('teal') && backgroundStyle.includes('green')) {
-    // Teal/Green background - use warm complementary colors
-    userGradient = 'from-rose-600/95 to-pink-600/95';
-    botGradient = 'from-red-800/95 to-rose-800/95';
-    errorGradient = 'from-orange-600/95 to-amber-600/95';
-    userBorder = 'border-rose-300/80';
-    botBorder = 'border-red-300/80';
-    errorBorder = 'border-orange-300/80';
-    userShadow = 'shadow-rose-400/60';
-    botShadow = 'shadow-red-400/60';
-    errorShadow = 'shadow-orange-400/60';
+    // Teal/Green background - use moderate dark teal tones
+    userGradient = 'from-teal-700/95 to-cyan-700/95';
+    botGradient = 'from-cyan-700/95 to-teal-700/95';
+    errorGradient = 'from-blue-700/95 to-teal-700/95';
+    userBorder = 'border-teal-400/80';
+    botBorder = 'border-cyan-400/80';
+    errorBorder = 'border-blue-400/80';
+    userShadow = 'shadow-teal-500/60';
+    botShadow = 'shadow-cyan-500/60';
+    errorShadow = 'shadow-blue-500/60';
   } else if (backgroundStyle.includes('indigo') && backgroundStyle.includes('purple')) {
-    // Indigo/Purple background - use yellow complementary colors
-    userGradient = 'from-yellow-600/95 to-amber-600/95';
-    botGradient = 'from-orange-800/95 to-yellow-800/95';
-    errorGradient = 'from-red-600/95 to-pink-600/95';
-    userBorder = 'border-yellow-300/80';
-    botBorder = 'border-orange-300/80';
-    errorBorder = 'border-red-300/80';
-    userShadow = 'shadow-yellow-400/60';
-    botShadow = 'shadow-orange-400/60';
-    errorShadow = 'shadow-red-400/60';
+    // Indigo/Purple background - use moderate dark indigo tones
+    userGradient = 'from-indigo-700/95 to-blue-700/95';
+    botGradient = 'from-blue-700/95 to-indigo-700/95';
+    errorGradient = 'from-slate-700/95 to-indigo-700/95';
+    userBorder = 'border-indigo-400/80';
+    botBorder = 'border-blue-400/80';
+    errorBorder = 'border-slate-400/80';
+    userShadow = 'shadow-indigo-500/60';
+    botShadow = 'shadow-blue-500/60';
+    errorShadow = 'shadow-slate-500/60';
   } else if (backgroundStyle.includes('pink') && backgroundStyle.includes('orange')) {
-    // Pink/Orange background - use blue complementary colors
-    userGradient = 'from-cyan-600/95 to-blue-600/95';
-    botGradient = 'from-slate-800/95 to-cyan-800/95';
-    errorGradient = 'from-indigo-600/95 to-purple-600/95';
-    userBorder = 'border-cyan-300/80';
-    botBorder = 'border-slate-300/80';
-    errorBorder = 'border-indigo-300/80';
-    userShadow = 'shadow-cyan-400/60';
-    botShadow = 'shadow-slate-400/60';
-    errorShadow = 'shadow-indigo-400/60';
+    // Pink/Orange background - use moderate dark pink tones
+    userGradient = 'from-pink-700/95 to-rose-700/95';
+    botGradient = 'from-rose-700/95 to-pink-700/95';
+    errorGradient = 'from-red-700/95 to-pink-700/95';
+    userBorder = 'border-pink-400/80';
+    botBorder = 'border-rose-400/80';
+    errorBorder = 'border-red-400/80';
+    userShadow = 'shadow-pink-500/60';
+    botShadow = 'shadow-rose-500/60';
+    errorShadow = 'shadow-red-500/60';
   }
 
   return {
@@ -550,7 +550,7 @@ Be helpful, conversational, and provide accurate information while maintaining a
                   onChange={(e) => setInputText(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Ask about Chan's experience, skills, projects, or anything else..."
-                  className="w-full px-4 py-3 bg-gradient-to-r from-white/30 via-blue-50/25 to-purple-50/20 border-2 border-blue-300/60 rounded-xl focus:ring-2 focus:ring-blue-400/70 focus:border-blue-400/70 resize-none text-white placeholder-white/80 backdrop-blur-sm shadow-lg"
+                  className="w-full px-4 py-3 bg-gradient-to-r from-white/30 via-blue-50/25 to-purple-50/20 border-2 border-blue-300/60 rounded-xl focus:ring-2 focus:ring-blue-400/70 focus:border-blue-400/70 resize-none text-black placeholder-gray-600 backdrop-blur-sm shadow-lg"
                   rows={1}
                   style={{ minHeight: '48px', maxHeight: '120px' }}
                 />
@@ -569,31 +569,31 @@ Be helpful, conversational, and provide accurate information while maintaining a
             <div className="mt-3 flex flex-wrap gap-2">
               <button
                 onClick={() => setInputText("Tell me about Chan's education and background")}
-                className="px-3 py-1 text-xs bg-gradient-to-r from-blue-500/70 to-cyan-500/70 hover:from-blue-600/80 hover:to-cyan-600/80 text-white rounded-full transition-all duration-300 border-2 border-blue-300/60 backdrop-blur-sm shadow-md hover:shadow-lg hover:scale-105"
+                className="px-3 py-1 text-xs bg-gradient-to-r from-blue-500/70 to-purple-500/70 hover:from-blue-600/80 hover:to-purple-600/80 text-white rounded-full transition-all duration-300 border-2 border-blue-300/60 backdrop-blur-sm shadow-md hover:shadow-lg hover:scale-105"
               >
                 Education
               </button>
               <button
                 onClick={() => setInputText("What are Chan's technical skills?")}
-                className="px-3 py-1 text-xs bg-gradient-to-r from-green-500/70 to-emerald-500/70 hover:from-green-600/80 hover:to-emerald-600/80 text-white rounded-full transition-all duration-300 border-2 border-green-300/60 backdrop-blur-sm shadow-md hover:shadow-lg hover:scale-105"
+                className="px-3 py-1 text-xs bg-gradient-to-r from-blue-500/70 to-purple-500/70 hover:from-blue-600/80 hover:to-purple-600/80 text-white rounded-full transition-all duration-300 border-2 border-blue-300/60 backdrop-blur-sm shadow-md hover:shadow-lg hover:scale-105"
               >
                 Skills
               </button>
               <button
                 onClick={() => setInputText("Tell me about Chan's projects")}
-                className="px-3 py-1 text-xs bg-gradient-to-r from-purple-500/70 to-pink-500/70 hover:from-purple-600/80 hover:to-pink-600/80 text-white rounded-full transition-all duration-300 border-2 border-purple-300/60 backdrop-blur-sm shadow-md hover:shadow-lg hover:scale-105"
+                className="px-3 py-1 text-xs bg-gradient-to-r from-blue-500/70 to-purple-500/70 hover:from-blue-600/80 hover:to-purple-600/80 text-white rounded-full transition-all duration-300 border-2 border-blue-300/60 backdrop-blur-sm shadow-md hover:shadow-lg hover:scale-105"
               >
                 Projects
               </button>
               <button
                 onClick={() => setInputText("What are Chan's achievements?")}
-                className="px-3 py-1 text-xs bg-gradient-to-r from-orange-500/70 to-yellow-500/70 hover:from-orange-600/80 hover:to-yellow-600/80 text-white rounded-full transition-all duration-300 border-2 border-orange-300/60 backdrop-blur-sm shadow-md hover:shadow-lg hover:scale-105"
+                className="px-3 py-1 text-xs bg-gradient-to-r from-blue-500/70 to-purple-500/70 hover:from-blue-600/80 hover:to-purple-600/80 text-white rounded-full transition-all duration-300 border-2 border-blue-300/60 backdrop-blur-sm shadow-md hover:shadow-lg hover:scale-105"
               >
                 Achievements
               </button>
               <button
                 onClick={() => setInputText("How can I contact Chan?")}
-                className="px-3 py-1 text-xs bg-gradient-to-r from-red-500/70 to-rose-500/70 hover:from-red-600/80 hover:to-rose-600/80 text-white rounded-full transition-all duration-300 border-2 border-red-300/60 backdrop-blur-sm shadow-md hover:shadow-lg hover:scale-105"
+                className="px-3 py-1 text-xs bg-gradient-to-r from-blue-500/70 to-purple-500/70 hover:from-blue-600/80 hover:to-purple-600/80 text-white rounded-full transition-all duration-300 border-2 border-blue-300/60 backdrop-blur-sm shadow-md hover:shadow-lg hover:scale-105"
               >
                 Contact
               </button>
@@ -649,16 +649,15 @@ Be helpful, conversational, and provide accurate information while maintaining a
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
               <div className="flex items-center justify-center space-x-2">
-                <img src="/medusa.ico" alt="Medusa" className="w-4 h-4" />
-                <span>OpenAI Powered</span>
+                <span className="text-white font-medium">OpenAI Powered</span>
               </div>
               <div className="flex items-center justify-center space-x-2">
-                <Brain className="w-4 h-4 text-blue-400" />
-                <span className="text-blue-300 font-medium">RAG Enhanced</span>
+                <Brain className="w-4 h-4 text-white" />
+                <span className="text-white font-medium">RAG Enhanced</span>
               </div>
               <div className="flex items-center justify-center space-x-2">
-                <User className="w-4 h-4 text-purple-400" />
-                <span className="text-purple-300 font-medium">Personalized</span>
+                <User className="w-4 h-4 text-white" />
+                <span className="text-white font-medium">Personalized</span>
               </div>
             </div>
           </div>
