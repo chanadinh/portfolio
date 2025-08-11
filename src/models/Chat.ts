@@ -70,3 +70,19 @@ ChatSchema.index({ sessionId: 1, createdAt: -1 });
 ChatSchema.index({ userId: 1, createdAt: -1 });
 
 export const Chat = mongoose.model<IChat>('Chat', ChatSchema);
+
+// Frontend data structure for chat history
+export interface ChatHistoryItem {
+  sessionId: string;
+  lastMessage: string;
+  messageCount: number;
+  lastActivity: Date;
+  totalTokens: number;
+}
+
+// Search result interface
+export interface ChatSearchResult {
+  sessionId: string;
+  message: IMessage;
+  relevance: number;
+}
