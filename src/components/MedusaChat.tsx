@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, Bot, User, AlertCircle } from 'lucide-react';
+import { Send, Bot, User, ArrowLeft, MessageCircle, AlertCircle, Linkedin, Briefcase, GraduationCap, Award, Code, Database, Brain } from 'lucide-react';
 import { motion } from 'framer-motion';
 import PERSONAL_INFO from '../data/personalInfo';
 
@@ -409,11 +409,11 @@ Be helpful, conversational, and provide accurate information while maintaining a
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <a 
+              <a
                 href="/"
                 className="flex items-center space-x-2 text-white/90 hover:text-white transition-colors"
               >
-                <Bot className="w-5 h-5" />
+                <ArrowLeft className="w-5 h-5" />
                 <span>Back to Portfolio</span>
               </a>
             </div>
@@ -609,7 +609,7 @@ Be helpful, conversational, and provide accurate information while maintaining a
           className="mt-8 bg-gradient-to-br from-white/20 via-blue-500/15 to-purple-500/10 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border-2 border-white/40"
         >
           <div className="text-center">
-            <img src="/medusa.ico" alt="Medusa" className="w-12 h-12 text-white mx-auto mb-4" />
+            <MessageCircle className="w-12 h-12 text-white mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-white mb-2">About Medusa Chat</h3>
             <p className="text-white/80 mb-4">
               This is an AI-powered chatbot powered by OpenAI's GPT-5 Chat model with RAG capabilities. 
@@ -621,27 +621,27 @@ Be helpful, conversational, and provide accurate information while maintaining a
               <h4 className="font-semibold text-white mb-3">What I Know About Chan:</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-white/80">
                 <div className="flex items-center space-x-2">
-                  <img src="/medusa.ico" alt="Medusa" className="w-4 h-4" />
+                  <GraduationCap className="w-4 h-4 text-white" />
                   <span>Education & GPA</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <img src="/medusa.ico" alt="Medusa" className="w-4 h-4" />
+                  <Briefcase className="w-4 h-4 text-white" />
                   <span>Work Experience</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <img src="/medusa.ico" alt="Medusa" className="w-4 h-4" />
+                  <Code className="w-4 h-4 text-white" />
                   <span>Technical Skills</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <img src="/medusa.ico" alt="Medusa" className="w-4 h-4" />
+                  <Database className="w-4 h-4 text-white" />
                   <span>Projects & Portfolio</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <img src="/medusa.ico" alt="Medusa" className="w-4 h-4" />
+                  <Award className="w-4 h-4 text-white" />
                   <span>Achievements & Awards</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <img src="/medusa.ico" alt="Medusa" className="w-4 h-4" />
+                  <Linkedin className="w-4 h-4 text-white" />
                   <span>Contact & LinkedIn</span>
                 </div>
               </div>
@@ -653,12 +653,12 @@ Be helpful, conversational, and provide accurate information while maintaining a
                 <span>OpenAI Powered</span>
               </div>
               <div className="flex items-center justify-center space-x-2">
-                <img src="/medusa.ico" alt="Medusa" className="w-4 h-4" />
-                <span>RAG Enhanced</span>
+                <Brain className="w-4 h-4 text-blue-400" />
+                <span className="text-blue-300 font-medium">RAG Enhanced</span>
               </div>
               <div className="flex items-center justify-center space-x-2">
-                <img src="/medusa.ico" alt="Medusa" className="w-4 h-4" />
-                <span>Personalized</span>
+                <User className="w-4 h-4 text-purple-400" />
+                <span className="text-purple-300 font-medium">Personalized</span>
               </div>
             </div>
           </div>
