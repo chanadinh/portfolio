@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Send, Bot, User, AlertCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { Send, User, ArrowLeft, MessageCircle, AlertCircle, Linkedin, Briefcase, GraduationCap, Award, Code, Database, Brain } from 'lucide-react';
 import PERSONAL_INFO from '../data/personalInfo';
 
 interface Message {
@@ -10,6 +10,127 @@ interface Message {
   timestamp: Date;
   error?: boolean;
 }
+
+interface MedusaChatProps {
+  apiKey: string;
+}
+
+// Function to detect background and get complementary colors
+const getBackgroundComplementaryColors = (backgroundStyle: string) => {
+  // Default colors for fallback
+  let userGradient = 'from-blue-600/95 to-purple-600/95';
+  let botGradient = 'from-gray-800/95 to-slate-800/95';
+  let errorGradient = 'from-red-600/95 to-pink-600/95';
+  let userBorder = 'border-blue-300/80';
+  let botBorder = 'border-gray-300/80';
+  let errorBorder = 'border-red-300/80';
+  let userShadow = 'shadow-blue-400/60';
+  let botShadow = 'shadow-gray-400/60';
+  let errorShadow = 'shadow-red-400/60';
+
+  // Detect background type and set complementary colors
+  if (backgroundStyle.includes('blue') && backgroundStyle.includes('indigo')) {
+    // Blue/Indigo background - use warm complementary colors
+    userGradient = 'from-orange-600/95 to-red-600/95';
+    botGradient = 'from-amber-800/95 to-orange-800/95';
+    errorGradient = 'from-pink-600/95 to-rose-600/95';
+    userBorder = 'border-orange-300/80';
+    botBorder = 'border-amber-300/80';
+    errorBorder = 'border-pink-300/80';
+    userShadow = 'shadow-orange-400/60';
+    botShadow = 'shadow-amber-400/60';
+    errorShadow = 'shadow-pink-400/60';
+  } else if (backgroundStyle.includes('red') && backgroundStyle.includes('yellow')) {
+    // Red/Yellow background - use cool complementary colors
+    userGradient = 'from-blue-600/95 to-cyan-600/95';
+    botGradient = 'from-slate-800/95 to-blue-800/95';
+    errorGradient = 'from-purple-600/95 to-indigo-600/95';
+    userBorder = 'border-blue-300/80';
+    botBorder = 'border-slate-300/80';
+    errorBorder = 'border-purple-300/80';
+    userShadow = 'shadow-blue-400/60';
+    botShadow = 'shadow-slate-400/60';
+    errorShadow = 'shadow-purple-400/60';
+  } else if (backgroundStyle.includes('green') && backgroundStyle.includes('blue')) {
+    // Green/Blue background - use warm complementary colors
+    userGradient = 'from-pink-600/95 to-rose-600/95';
+    botGradient = 'from-red-800/95 to-pink-800/95';
+    errorGradient = 'from-orange-600/95 to-yellow-600/95';
+    userBorder = 'border-pink-300/80';
+    botBorder = 'border-red-300/80';
+    errorBorder = 'border-orange-300/80';
+    userShadow = 'shadow-pink-400/60';
+    botShadow = 'shadow-red-400/60';
+    errorShadow = 'shadow-orange-400/60';
+  } else if (backgroundStyle.includes('purple') && backgroundStyle.includes('pink')) {
+    // Purple/Pink background - use green complementary colors
+    userGradient = 'from-green-600/95 to-emerald-600/95';
+    botGradient = 'from-teal-800/95 to-green-800/95';
+    errorGradient = 'from-cyan-600/95 to-blue-600/95';
+    userBorder = 'border-green-300/80';
+    botBorder = 'border-teal-300/80';
+    errorBorder = 'border-cyan-300/80';
+    userShadow = 'shadow-green-400/60';
+    botShadow = 'shadow-teal-400/60';
+    errorShadow = 'shadow-cyan-400/60';
+  } else if (backgroundStyle.includes('orange') && backgroundStyle.includes('yellow')) {
+    // Orange/Yellow background - use cool complementary colors
+    userGradient = 'from-indigo-600/95 to-purple-600/95';
+    botGradient = 'from-slate-800/95 to-indigo-800/95';
+    errorGradient = 'from-blue-600/95 to-cyan-600/95';
+    userBorder = 'border-indigo-300/80';
+    botBorder = 'border-slate-300/80';
+    errorBorder = 'border-blue-300/80';
+    userShadow = 'shadow-indigo-400/60';
+    botShadow = 'shadow-slate-400/60';
+    errorShadow = 'shadow-blue-400/60';
+  } else if (backgroundStyle.includes('teal') && backgroundStyle.includes('green')) {
+    // Teal/Green background - use warm complementary colors
+    userGradient = 'from-rose-600/95 to-pink-600/95';
+    botGradient = 'from-red-800/95 to-rose-800/95';
+    errorGradient = 'from-orange-600/95 to-amber-600/95';
+    userBorder = 'border-rose-300/80';
+    botBorder = 'border-red-300/80';
+    errorBorder = 'border-orange-300/80';
+    userShadow = 'shadow-rose-400/60';
+    botShadow = 'shadow-red-400/60';
+    errorShadow = 'shadow-orange-400/60';
+  } else if (backgroundStyle.includes('indigo') && backgroundStyle.includes('purple')) {
+    // Indigo/Purple background - use yellow complementary colors
+    userGradient = 'from-yellow-600/95 to-amber-600/95';
+    botGradient = 'from-orange-800/95 to-yellow-800/95';
+    errorGradient = 'from-red-600/95 to-pink-600/95';
+    userBorder = 'border-yellow-300/80';
+    botBorder = 'border-orange-300/80';
+    errorBorder = 'border-red-300/80';
+    userShadow = 'shadow-yellow-400/60';
+    botShadow = 'shadow-orange-400/60';
+    errorShadow = 'shadow-red-400/60';
+  } else if (backgroundStyle.includes('pink') && backgroundStyle.includes('orange')) {
+    // Pink/Orange background - use blue complementary colors
+    userGradient = 'from-cyan-600/95 to-blue-600/95';
+    botGradient = 'from-slate-800/95 to-cyan-800/95';
+    errorGradient = 'from-indigo-600/95 to-purple-600/95';
+    userBorder = 'border-cyan-300/80';
+    botBorder = 'border-slate-300/80';
+    errorBorder = 'border-indigo-300/80';
+    userShadow = 'shadow-cyan-400/60';
+    botShadow = 'shadow-slate-400/60';
+    errorShadow = 'shadow-indigo-400/60';
+  }
+
+  return {
+    userGradient,
+    botGradient,
+    errorGradient,
+    userBorder,
+    botBorder,
+    errorBorder,
+    userShadow,
+    botShadow,
+    errorShadow
+  };
+};
 
 // Use imported personal information for RAG
 const KNOWLEDGE_BASE = PERSONAL_INFO;
@@ -115,7 +236,7 @@ Education: ${KNOWLEDGE_BASE.education.degree} at ${KNOWLEDGE_BASE.education.univ
   return relevantInfo;
 };
 
-const MedusaChat: React.FC = () => {
+const MedusaChat: React.FC<MedusaChatProps> = ({ apiKey }) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -126,9 +247,43 @@ const MedusaChat: React.FC = () => {
   ]);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [apiKey, setApiKey] = useState('');
-  const [showApiKeyInput, setShowApiKeyInput] = useState(false);
+  const [currentBackground, setCurrentBackground] = useState<string>('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Function to detect background changes
+  const detectBackgroundChange = () => {
+    // Get the current background from the document
+    const body = document.body;
+    const computedStyle = window.getComputedStyle(body);
+    const background = computedStyle.background || computedStyle.backgroundImage;
+    
+    if (background && background !== currentBackground) {
+      setCurrentBackground(background);
+    }
+  };
+
+  // Listen for background changes
+  useEffect(() => {
+    detectBackgroundChange();
+    
+    // Check for background changes periodically
+    const interval = setInterval(detectBackgroundChange, 1000);
+    
+    // Also listen for DOM changes that might indicate background updates
+    const observer = new MutationObserver(detectBackgroundChange);
+    observer.observe(document.body, { 
+      attributes: true, 
+      attributeFilter: ['style', 'class'] 
+    });
+
+    return () => {
+      clearInterval(interval);
+      observer.disconnect();
+    };
+  }, [currentBackground]);
+
+  // Get complementary colors based on current background
+  const complementaryColors = getBackgroundComplementaryColors(currentBackground);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -138,32 +293,22 @@ const MedusaChat: React.FC = () => {
     scrollToBottom();
   }, [messages]);
 
-  // Check if API key is set on component mount
+  // Initialize API key from environment or localStorage
   useEffect(() => {
-    // First check for environment variable (for production/Vercel)
     const envApiKey = process.env.REACT_APP_OPENAI_API_KEY;
     if (envApiKey) {
-      setApiKey(envApiKey);
-      setShowApiKeyInput(false);
       return;
     }
     
-    // Fallback to localStorage (for development/local use)
     const storedKey = localStorage.getItem('openai_api_key');
     if (storedKey) {
-      setApiKey(storedKey);
-      setShowApiKeyInput(false);
-    } else {
-      setShowApiKeyInput(true);
+      // API key is already available via props
+      return;
     }
   }, []);
 
-  const handleApiKeySubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (apiKey.trim()) {
-      localStorage.setItem('openai_api_key', apiKey.trim());
-      setShowApiKeyInput(false);
-    }
+  const clearApiKey = () => {
+    localStorage.removeItem('openai_api_key');
   };
 
   const handleSendMessage = async () => {
@@ -257,72 +402,6 @@ Be helpful, conversational, and provide accurate information while maintaining a
     }
   };
 
-  const clearApiKey = () => {
-    localStorage.removeItem('openai_api_key');
-    setApiKey('');
-    setShowApiKeyInput(true);
-  };
-
-  if (showApiKeyInput) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8 max-w-md w-full mx-4"
-        >
-          <div className="text-center mb-6">
-            <img src="/medusa.ico" alt="Medusa" className="w-16 h-16 mx-auto mb-4" />
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Setup Required</h1>
-            <p className="text-gray-600">Please enter your OpenAI API key to use Medusa Chat</p>
-          </div>
-          
-          <form onSubmit={handleApiKeySubmit} className="space-y-4">
-            <div>
-              <label htmlFor="apiKey" className="block text-sm font-medium text-gray-700 mb-2">
-                OpenAI API Key
-              </label>
-              <input
-                type="password"
-                id="apiKey"
-                value={apiKey}
-                onChange={(e) => setApiKey(e.target.value)}
-                placeholder="sk-..."
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full px-6 py-3 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition-colors"
-            >
-              Start Chatting
-            </button>
-          </form>
-          
-          <div className="mt-6 text-center">
-            <a
-              href="/"
-              className="text-primary-600 hover:text-primary-700 text-sm"
-            >
-              ← Back to Portfolio
-            </a>
-          </div>
-          
-          <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-            <p className="text-sm text-blue-800">
-              <strong>Note:</strong> Your API key is stored locally and never sent to our servers. 
-              Get your key from <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" className="underline">OpenAI Platform</a>.
-            </p>
-            <p className="text-sm text-blue-800 mt-2">
-              <strong>For Production:</strong> Set <code className="bg-blue-100 px-1 rounded">REACT_APP_OPENAI_API_KEY</code> environment variable in Vercel.
-            </p>
-          </div>
-        </motion.div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen">
       {/* Header */}
@@ -334,7 +413,7 @@ Be helpful, conversational, and provide accurate information while maintaining a
                 href="/"
                 className="flex items-center space-x-2 text-white/90 hover:text-white transition-colors"
               >
-                <ArrowLeft className="w-5 h-5" />
+                <Bot className="w-5 h-5" />
                 <span>Back to Portfolio</span>
               </a>
             </div>
@@ -384,6 +463,20 @@ Be helpful, conversational, and provide accurate information while maintaining a
 
           {/* Messages */}
           <div className="h-96 overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-white/5 to-white/10">
+            {/* Dynamic Color Indicator */}
+            <div className="px-6 py-2 bg-gradient-to-r from-white/10 to-white/5 border-b border-white/20">
+              <div className="flex items-center justify-between text-xs text-white/70">
+                <span>🎨 Dynamic Colors Active</span>
+                <div className="flex items-center space-x-2">
+                  <div className="flex space-x-1">
+                    <div className="w-3 h-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-gradient-to-r from-green-500 to-emerald-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-gradient-to-r from-orange-500 to-yellow-500"></div>
+                  </div>
+                  <span>Background: {currentBackground ? 'Detected' : 'Default'}</span>
+                </div>
+              </div>
+            </div>
             {messages.map((message) => (
               <motion.div
                 key={message.id}
@@ -406,10 +499,10 @@ Be helpful, conversational, and provide accurate information while maintaining a
                   </div>
                   <div className={`rounded-2xl px-4 py-3 backdrop-blur-sm shadow-2xl ${
                     message.sender === 'user'
-                      ? 'bg-gradient-to-r from-blue-600/95 to-purple-600/95 text-white border-2 border-blue-300/80 shadow-blue-400/60'
+                      ? `bg-gradient-to-r ${complementaryColors.userGradient} text-white border-2 ${complementaryColors.userBorder} ${complementaryColors.userShadow}`
                       : message.error
-                        ? 'bg-gradient-to-r from-red-600/95 to-pink-600/95 text-white border-2 border-red-300/80 shadow-red-400/60'
-                        : 'bg-gradient-to-r from-gray-800/95 to-slate-800/95 text-white border-2 border-gray-300/80 shadow-gray-400/60'
+                        ? `bg-gradient-to-r ${complementaryColors.errorGradient} text-white border-2 ${complementaryColors.errorBorder} ${complementaryColors.errorShadow}`
+                        : `bg-gradient-to-r ${complementaryColors.botGradient} text-white border-2 ${complementaryColors.botBorder} ${complementaryColors.botShadow}`
                   }`}>
                     <p className="text-sm leading-relaxed">{message.text}</p>
                     <p className={`text-xs mt-2 ${
@@ -434,7 +527,7 @@ Be helpful, conversational, and provide accurate information while maintaining a
                   <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center overflow-hidden border border-white/30">
                     <img src="/medusa.ico" alt="Medusa" className="w-6 h-6" />
                   </div>
-                  <div className="bg-gradient-to-r from-gray-800/95 to-slate-800/95 rounded-2xl px-4 py-3 border-2 border-gray-300/80 backdrop-blur-sm shadow-2xl shadow-gray-400/60">
+                  <div className={`bg-gradient-to-r ${complementaryColors.botGradient} rounded-2xl px-4 py-3 border-2 ${complementaryColors.botBorder} backdrop-blur-sm shadow-2xl ${complementaryColors.botShadow}`}>
                     <div className="flex space-x-1">
                       <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce"></div>
                       <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
@@ -516,7 +609,7 @@ Be helpful, conversational, and provide accurate information while maintaining a
           className="mt-8 bg-gradient-to-br from-white/20 via-blue-500/15 to-purple-500/10 backdrop-blur-xl rounded-2xl p-6 shadow-2xl border-2 border-white/40"
         >
           <div className="text-center">
-            <MessageCircle className="w-12 h-12 text-white mx-auto mb-4" />
+            <img src="/medusa.ico" alt="Medusa" className="w-12 h-12 text-white mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-white mb-2">About Medusa Chat</h3>
             <p className="text-white/80 mb-4">
               This is an AI-powered chatbot powered by OpenAI's GPT-5 Chat model with RAG capabilities. 
@@ -528,27 +621,27 @@ Be helpful, conversational, and provide accurate information while maintaining a
               <h4 className="font-semibold text-white mb-3">What I Know About Chan:</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-white/80">
                 <div className="flex items-center space-x-2">
-                  <GraduationCap className="w-4 h-4 text-white" />
+                  <img src="/medusa.ico" alt="Medusa" className="w-4 h-4" />
                   <span>Education & GPA</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Briefcase className="w-4 h-4 text-white" />
+                  <img src="/medusa.ico" alt="Medusa" className="w-4 h-4" />
                   <span>Work Experience</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Code className="w-4 h-4 text-white" />
+                  <img src="/medusa.ico" alt="Medusa" className="w-4 h-4" />
                   <span>Technical Skills</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Database className="w-4 h-4 text-white" />
+                  <img src="/medusa.ico" alt="Medusa" className="w-4 h-4" />
                   <span>Projects & Portfolio</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Award className="w-4 h-4 text-white" />
+                  <img src="/medusa.ico" alt="Medusa" className="w-4 h-4" />
                   <span>Achievements & Awards</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Linkedin className="w-4 h-4 text-white" />
+                  <img src="/medusa.ico" alt="Medusa" className="w-4 h-4" />
                   <span>Contact & LinkedIn</span>
                 </div>
               </div>
@@ -560,11 +653,11 @@ Be helpful, conversational, and provide accurate information while maintaining a
                 <span>OpenAI Powered</span>
               </div>
               <div className="flex items-center justify-center space-x-2">
-                <Brain className="w-4 h-4 text-primary-600" />
+                <img src="/medusa.ico" alt="Medusa" className="w-4 h-4" />
                 <span>RAG Enhanced</span>
               </div>
               <div className="flex items-center justify-center space-x-2">
-                <User className="w-4 h-4 text-primary-600" />
+                <img src="/medusa.ico" alt="Medusa" className="w-4 h-4" />
                 <span>Personalized</span>
               </div>
             </div>
