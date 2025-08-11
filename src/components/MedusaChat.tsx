@@ -16,7 +16,7 @@ const KNOWLEDGE_BASE = {
     name: "Chan Dinh",
     title: "AI/ML Engineer & Full-Stack Developer",
     location: "Orlando, FL",
-    email: "chandinh@knights.ucf.edu",
+    email: "dinhc@seminolestate.edu", 
     linkedin: "https://www.linkedin.com/in/chanadinh/",
     github: "https://github.com/chanadinh"
   },
@@ -43,7 +43,7 @@ const KNOWLEDGE_BASE = {
     hackathon: "Best Personal Project (CodeBuff) - $650 USD at Nosu AI Hackathon",
     programming: "Top 5 Individual at Intercollegiate Programming Competition",
     nanodegree: "AI Programming with Python Nanodegree from Udacity",
-    academic: "3.8 GPA in Computer Science at UCF"
+    academic: "4.0 GPA in Computer Science at Seminole State College of Florida"
   },
   interests: ["Artificial Intelligence", "Machine Learning", "Computer Vision", "Natural Language Processing", "Web Development", "Competitive Programming", "AI Ethics", "Sustainable AI"]
 };
@@ -65,7 +65,7 @@ const retrieveRelevantInfo = (query: string): string => {
 **Relevant Coursework:**
 • ${KNOWLEDGE_BASE.education.relevant_courses.join('\n• ')}
 
-Chan's strong academic foundation in computer science, combined with specialized AI/ML coursework, provides the theoretical knowledge needed for advanced technical projects.\n\n`;
+Chan's exceptional academic performance with a perfect 4.0 GPA demonstrates his dedication to excellence in computer science. This strong foundation, combined with specialized AI/ML coursework, provides the theoretical knowledge needed for advanced technical projects.\n\n`;
   }
   
   // Check for experience-related queries
@@ -110,7 +110,7 @@ These projects demonstrate Chan's versatility across AI/ML, computer vision, web
 
 • **AI Programming with Python Nanodegree** from **Udacity**, demonstrating expertise in Python, machine learning, and AI fundamentals
 
-• **Academic Excellence** – Maintained a **3.8 GPA** while studying **Computer Science** at the **University of Central Florida (UCF)**
+• **Academic Excellence** – Maintained a **4.0 GPA** while studying **Computer Science** at **Seminole State College of Florida**
 
 These achievements highlight Chan's technical skills, competitive programming abilities, and commitment to continuous learning in AI/ML.\n\n`;
   }
