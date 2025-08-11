@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Send, Bot, User, ArrowLeft, MessageCircle, AlertCircle, FileText, Linkedin, Briefcase, GraduationCap, Award, Code, Database, Brain } from 'lucide-react';
+import { Send, User, ArrowLeft, MessageCircle, AlertCircle, Linkedin, Briefcase, GraduationCap, Award, Code, Database, Brain } from 'lucide-react';
+import PERSONAL_INFO from '../data/personalInfo';
 
 interface Message {
   id: string;
@@ -10,43 +11,8 @@ interface Message {
   error?: boolean;
 }
 
-// Knowledge Base for RAG - Your professional information
-const KNOWLEDGE_BASE = {
-  personal: {
-    name: "Chan Dinh",
-    title: "AI/ML Engineer & Full-Stack Developer",
-    location: "Orlando, FL",
-    email: "dinhc@seminolestate.edu", 
-    linkedin: "https://www.linkedin.com/in/chanadinh/",
-    github: "https://github.com/chanadinh"
-  },
-  education: {
-    degree: "Bachelor of Science in Computer Science",
-    university: "University of Central Florida",
-    graduation: "2025",
-    gpa: "3.8/4.0",
-    relevant_courses: ["Machine Learning", "Artificial Intelligence", "Data Structures", "Algorithms", "Computer Vision", "Neural Networks"]
-  },
-  experience: {
-    current_role: "AI/ML Engineer Intern at Nosu AI",
-    previous: "Software Engineering Intern at various companies",
-    skills: ["Python", "JavaScript", "React", "Node.js", "PyTorch", "TensorFlow", "Machine Learning", "Deep Learning", "Computer Vision", "Natural Language Processing"]
-  },
-  projects: {
-    paemon: "Project Pæmon - AI web app that generates personalized digital companions using GPT-5 and Stable Diffusion. Won Best Personal Project at Nosu AI Hackathon with $650 prize.",
-    mnist: "MNIST Digit Classifier using neural networks and machine learning algorithms",
-    bike_sharing: "Bike Sharing Demand Prediction using AutoGluon for automated ML",
-    dog_classifier: "Dog Breed Classifier using PyTorch and CNN architectures (AlexNet, VGG, ResNet)",
-    medusa_bot: "Feature-rich Discord bot with REST API integration and multiple APIs"
-  },
-  achievements: {
-    hackathon: "Best Personal Project (CodeBuff) - $650 USD at Nosu AI Hackathon",
-    programming: "Top 5 Individual at Intercollegiate Programming Competition",
-    nanodegree: "AI Programming with Python Nanodegree from Udacity",
-    academic: "4.0 GPA in Computer Science at Seminole State College of Florida"
-  },
-  interests: ["Artificial Intelligence", "Machine Learning", "Computer Vision", "Natural Language Processing", "Web Development", "Competitive Programming", "AI Ethics", "Sustainable AI"]
-};
+// Use imported personal information for RAG
+const KNOWLEDGE_BASE = PERSONAL_INFO;
 
 // Function to retrieve relevant information based on user query
 const retrieveRelevantInfo = (query: string): string => {
