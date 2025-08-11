@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Send, Bot, User, ArrowLeft, MessageCircle, AlertCircle } from 'lucide-react';
+import { Send, Bot, User, ArrowLeft, MessageCircle, AlertCircle, FileText, Linkedin, Briefcase, GraduationCap, Award, Code, Database, Brain } from 'lucide-react';
 
 interface Message {
   id: string;
@@ -10,11 +10,92 @@ interface Message {
   error?: boolean;
 }
 
+// Knowledge Base for RAG - Your professional information
+const KNOWLEDGE_BASE = {
+  personal: {
+    name: "Chan Dinh",
+    title: "AI/ML Engineer & Full-Stack Developer",
+    location: "Orlando, FL",
+    email: "chandinh@knights.ucf.edu",
+    linkedin: "https://www.linkedin.com/in/chanadinh/",
+    github: "https://github.com/chanadinh"
+  },
+  education: {
+    degree: "Bachelor of Science in Computer Science",
+    university: "University of Central Florida",
+    graduation: "2025",
+    gpa: "3.8/4.0",
+    relevant_courses: ["Machine Learning", "Artificial Intelligence", "Data Structures", "Algorithms", "Computer Vision", "Neural Networks"]
+  },
+  experience: {
+    current_role: "AI/ML Engineer Intern at Nosu AI",
+    previous: "Software Engineering Intern at various companies",
+    skills: ["Python", "JavaScript", "React", "Node.js", "PyTorch", "TensorFlow", "Machine Learning", "Deep Learning", "Computer Vision", "Natural Language Processing"]
+  },
+  projects: {
+    paemon: "Project Pæmon - AI web app that generates personalized digital companions using GPT-5 and Stable Diffusion. Won Best Personal Project at Nosu AI Hackathon with $650 prize.",
+    mnist: "MNIST Digit Classifier using neural networks and machine learning algorithms",
+    bike_sharing: "Bike Sharing Demand Prediction using AutoGluon for automated ML",
+    dog_classifier: "Dog Breed Classifier using PyTorch and CNN architectures (AlexNet, VGG, ResNet)",
+    medusa_bot: "Feature-rich Discord bot with REST API integration and multiple APIs"
+  },
+  achievements: {
+    hackathon: "Best Personal Project (CodeBuff) - $650 USD at Nosu AI Hackathon",
+    programming: "Top 5 Individual at Intercollegiate Programming Competition",
+    nanodegree: "AI Programming with Python Nanodegree from Udacity",
+    academic: "3.8 GPA in Computer Science at UCF"
+  },
+  interests: ["Artificial Intelligence", "Machine Learning", "Computer Vision", "Natural Language Processing", "Web Development", "Competitive Programming", "AI Ethics", "Sustainable AI"]
+};
+
+// Function to retrieve relevant information based on user query
+const retrieveRelevantInfo = (query: string): string => {
+  const lowerQuery = query.toLowerCase();
+  let relevantInfo = "";
+  
+  // Check for education-related queries
+  if (lowerQuery.includes('education') || lowerQuery.includes('degree') || lowerQuery.includes('university') || lowerQuery.includes('gpa')) {
+    relevantInfo += `Education: ${KNOWLEDGE_BASE.education.degree} from ${KNOWLEDGE_BASE.education.university}, graduating ${KNOWLEDGE_BASE.education.graduation} with a ${KNOWLEDGE_BASE.education.gpa} GPA. Relevant courses include ${KNOWLEDGE_BASE.education.relevant_courses.join(', ')}.\n\n`;
+  }
+  
+  // Check for experience-related queries
+  if (lowerQuery.includes('experience') || lowerQuery.includes('work') || lowerQuery.includes('intern') || lowerQuery.includes('job')) {
+    relevantInfo += `Current Experience: ${KNOWLEDGE_BASE.experience.current_role}. I have experience as a Software Engineering Intern and expertise in ${KNOWLEDGE_BASE.experience.skills.join(', ')}.\n\n`;
+  }
+  
+  // Check for project-related queries
+  if (lowerQuery.includes('project') || lowerQuery.includes('portfolio') || lowerQuery.includes('work')) {
+    relevantInfo += `Key Projects:\n- ${KNOWLEDGE_BASE.projects.paemon}\n- ${KNOWLEDGE_BASE.projects.mnist}\n- ${KNOWLEDGE_BASE.projects.bike_sharing}\n- ${KNOWLEDGE_BASE.projects.dog_classifier}\n- ${KNOWLEDGE_BASE.projects.medusa_bot}\n\n`;
+  }
+  
+  // Check for achievement-related queries
+  if (lowerQuery.includes('achievement') || lowerQuery.includes('award') || lowerQuery.includes('prize') || lowerQuery.includes('hackathon')) {
+    relevantInfo += `Achievements:\n- ${KNOWLEDGE_BASE.achievements.hackathon}\n- ${KNOWLEDGE_BASE.achievements.programming}\n- ${KNOWLEDGE_BASE.achievements.nanodegree}\n- ${KNOWLEDGE_BASE.achievements.academic}\n\n`;
+  }
+  
+  // Check for skills-related queries
+  if (lowerQuery.includes('skill') || lowerQuery.includes('technology') || lowerQuery.includes('programming') || lowerQuery.includes('language')) {
+    relevantInfo += `Technical Skills: ${KNOWLEDGE_BASE.experience.skills.join(', ')}.\n\n`;
+  }
+  
+  // Check for contact-related queries
+  if (lowerQuery.includes('contact') || lowerQuery.includes('email') || lowerQuery.includes('linkedin') || lowerQuery.includes('github')) {
+    relevantInfo += `Contact Information:\n- Email: ${KNOWLEDGE_BASE.personal.email}\n- LinkedIn: ${KNOWLEDGE_BASE.personal.linkedin}\n- GitHub: ${KNOWLEDGE_BASE.personal.github}\n\n`;
+  }
+  
+  // Check for general personal queries
+  if (lowerQuery.includes('who are you') || lowerQuery.includes('tell me about') || lowerQuery.includes('background') || lowerQuery.includes('yourself')) {
+    relevantInfo += `About Me: I'm ${KNOWLEDGE_BASE.personal.name}, a ${KNOWLEDGE_BASE.personal.title} based in ${KNOWLEDGE_BASE.personal.location}. I'm passionate about ${KNOWLEDGE_BASE.interests.join(', ')}.\n\n`;
+  }
+  
+  return relevantInfo;
+};
+
 const MedusaChat: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: "Hello! I'm Medusa, your AI assistant powered by OpenAI. How can I help you today?",
+      text: `Hello! I'm Medusa, your AI assistant powered by OpenAI GPT-5 Chat. I have access to information about Chan Dinh's professional background, including his resume, LinkedIn, projects, and achievements. I can help you learn about his experience, skills, projects, or answer general questions. How can I help you today?`,
       sender: 'bot',
       timestamp: new Date()
     }
@@ -87,9 +168,14 @@ const MedusaChat: React.FC = () => {
           messages: [
             {
               role: 'system',
-              content: `You are Medusa, a helpful AI assistant. You're knowledgeable about programming, AI/ML, 
-              and general topics. Be conversational, helpful, and provide accurate information. 
-              Keep responses concise but informative.`
+              content: `You are Medusa, a helpful AI assistant with access to detailed information about Chan Dinh's professional background. 
+
+IMPORTANT CONTEXT ABOUT CHAN DINH:
+${retrieveRelevantInfo(inputText)}
+
+Use this information to provide accurate, personalized responses about Chan's experience, skills, projects, and achievements. When asked about Chan, always reference this information. For general questions, you can still provide helpful information about programming, AI/ML, and other topics.
+
+Be conversational, helpful, and provide accurate information. Keep responses concise but informative. If the user asks about Chan's background, skills, or experience, make sure to include relevant details from the context provided.`
             },
             ...messages
               .filter(msg => msg.sender === 'user')
@@ -97,7 +183,7 @@ const MedusaChat: React.FC = () => {
               .slice(-10), // Keep last 10 user messages for context
             { role: 'user' as const, content: inputText }
           ],
-          max_tokens: 500,
+          max_tokens: 800,
           temperature: 0.7
         })
       });
@@ -257,7 +343,7 @@ const MedusaChat: React.FC = () => {
               </div>
               <div>
                 <h2 className="text-white font-semibold text-lg">Medusa AI Assistant</h2>
-                <p className="text-white/80 text-sm">Powered by OpenAI GPT-5</p>
+                <p className="text-white/80 text-sm">Powered by OpenAI GPT-5 Chat with RAG</p>
               </div>
             </div>
           </div>
@@ -335,7 +421,7 @@ const MedusaChat: React.FC = () => {
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder="Type your message here..."
+                  placeholder="Ask about Chan's experience, skills, projects, or anything else..."
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"
                   rows={1}
                   style={{ minHeight: '48px', maxHeight: '120px' }}
@@ -348,6 +434,40 @@ const MedusaChat: React.FC = () => {
               >
                 <Send className="w-4 h-4" />
                 <span className="hidden sm:inline">Send</span>
+              </button>
+            </div>
+            
+            {/* Quick Suggestions */}
+            <div className="mt-3 flex flex-wrap gap-2">
+              <button
+                onClick={() => setInputText("Tell me about Chan's education and background")}
+                className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors"
+              >
+                Education
+              </button>
+              <button
+                onClick={() => setInputText("What are Chan's technical skills?")}
+                className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors"
+              >
+                Skills
+              </button>
+              <button
+                onClick={() => setInputText("Tell me about Chan's projects")}
+                className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors"
+              >
+                Projects
+              </button>
+              <button
+                onClick={() => setInputText("What are Chan's achievements?")}
+                className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors"
+              >
+                Achievements
+              </button>
+              <button
+                onClick={() => setInputText("How can I contact Chan?")}
+                className="px-3 py-1 text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full transition-colors"
+              >
+                Contact
               </button>
             </div>
           </div>
@@ -364,21 +484,53 @@ const MedusaChat: React.FC = () => {
             <MessageCircle className="w-12 h-12 text-primary-600 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-gray-900 mb-2">About Medusa Chat</h3>
             <p className="text-gray-600 mb-4">
-              This is an AI-powered chatbot powered by OpenAI's GPT-5 model. 
-              It can help you learn about programming, AI/ML, and answer general questions.
+              This is an AI-powered chatbot powered by OpenAI's GPT-5 Chat model with RAG capabilities. 
+              I have access to Chan Dinh's professional information and can answer questions about his experience, skills, projects, and achievements.
             </p>
+            
+            {/* RAG Capabilities */}
+            <div className="mb-6 p-4 bg-blue-50 rounded-lg">
+              <h4 className="font-semibold text-blue-900 mb-3">What I Know About Chan:</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-blue-800">
+                <div className="flex items-center space-x-2">
+                  <GraduationCap className="w-4 h-4 text-blue-600" />
+                  <span>Education & GPA</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Briefcase className="w-4 h-4 text-blue-600" />
+                  <span>Work Experience</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Code className="w-4 h-4 text-blue-600" />
+                  <span>Technical Skills</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Database className="w-4 h-4 text-blue-600" />
+                  <span>Projects & Portfolio</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Award className="w-4 h-4 text-blue-600" />
+                  <span>Achievements & Awards</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Linkedin className="w-4 h-4 text-blue-600" />
+                  <span>Contact & LinkedIn</span>
+                </div>
+              </div>
+            </div>
+            
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
               <div className="flex items-center justify-center space-x-2">
                 <Bot className="w-4 h-4 text-primary-600" />
                 <span>OpenAI Powered</span>
               </div>
               <div className="flex items-center justify-center space-x-2">
-                <MessageCircle className="w-4 h-4 text-primary-600" />
-                <span>Real-time Chat</span>
+                <Brain className="w-4 h-4 text-primary-600" />
+                <span>RAG Enhanced</span>
               </div>
               <div className="flex items-center justify-center space-x-2">
                 <User className="w-4 h-4 text-primary-600" />
-                <span>Interactive</span>
+                <span>Personalized</span>
               </div>
             </div>
           </div>
