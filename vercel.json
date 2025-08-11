@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "functions": {
+    "api/chat/message.js": {
+      "maxDuration": 30
+    },
+    "api/chat/history/[ipAddress].js": {
+      "maxDuration": 30
+    },
+    "api/chat/session/[sessionId].js": {
+      "maxDuration": 30
+    },
+    "api/chat/search.js": {
+      "maxDuration": 30
+    },
+    "api/chat/stats/[ipAddress].js": {
+      "maxDuration": 30
+    },
+    "api/chat/ip/[ipAddress].js": {
+      "maxDuration": 30
+    },
+    "api/chat/ips.js": {
+      "maxDuration": 30
+    },
+    "api/health.js": {
+      "maxDuration": 10
+    }
+  }
+}
