@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import PERSONAL_INFO from '../data/personalInfo';
 import { useChatHistory } from '../contexts/ChatHistoryContext';
 import ChatHistory from './ChatHistory';
+import chatService from '../services/chatService';
+import sessionManager from '../utils/sessionManager';
 
 interface Message {
   id: string;
@@ -257,6 +259,36 @@ const MedusaChat: React.FC<MedusaChatProps> = ({ apiKey }) => {
   // Chat history context
   const { addMessage: addToHistory, state: chatHistoryState } = useChatHistory();
 
+  // Function to save message to database with IP address
+  const saveMessageToDatabase = async (
+    role: 'user' | 'assistant',
+    content: string,
+    tokens?: number
+  ) => {
+    try {
+      const sessionId = chatHistoryState.sessionId;
+      const ipAddress = chatHistoryState.ipAddress || await sessionManager.getClientIPAddress();
+      
+      if (sessionId && ipAddress) {
+        await chatService.saveMessage(
+          sessionId,
+          role,
+          content,
+          ipAddress,
+          tokens,
+          undefined, // userId
+          {
+            userAgent: navigator.userAgent,
+            deviceInfo: `${navigator.platform} - ${navigator.language}`,
+            browserInfo: `${navigator.appName} ${navigator.appVersion}`
+          }
+        );
+      }
+    } catch (error) {
+      console.error('Failed to save message to database:', error);
+    }
+  };
+
   // Function to detect background changes
   const detectBackgroundChange = () => {
     // Get the current background from the document
@@ -330,12 +362,19 @@ const MedusaChat: React.FC<MedusaChatProps> = ({ apiKey }) => {
 
     setMessages(prev => [...prev, userMessage]);
     
-    // Save user message to chat history
+    // Save user message to chat history context
     addToHistory({
       role: 'user',
       content: inputText,
       tokens: Math.ceil(inputText.length / 4) // Rough token estimation
     });
+
+    // Save user message to database with IP address
+    await saveMessageToDatabase(
+      'user',
+      inputText,
+      Math.ceil(inputText.length / 4)
+    );
     
     setInputText('');
     setIsTyping(true);
@@ -396,12 +435,19 @@ Be helpful, conversational, and provide accurate information while maintaining a
       
       setMessages(prev => [...prev, botResponse]);
       
-      // Save bot response to chat history
+      // Save bot response to chat history context
       addToHistory({
         role: 'assistant',
         content: data.choices[0]?.message?.content || 'Sorry, I encountered an error processing your request.',
         tokens: data.usage?.completion_tokens || Math.ceil(botResponse.text.length / 4)
       });
+
+      // Save bot response to database with IP address
+      await saveMessageToDatabase(
+        'assistant',
+        data.choices[0]?.message?.content || 'Sorry, I encountered an error processing your request.',
+        data.usage?.completion_tokens || Math.ceil(botResponse.text.length / 4)
+      );
     } catch (error) {
       console.error('OpenAI API error:', error);
       const errorMessage: Message = {
@@ -413,12 +459,19 @@ Be helpful, conversational, and provide accurate information while maintaining a
       };
       setMessages(prev => [...prev, errorMessage]);
       
-      // Save error message to chat history
+      // Save error message to chat history context
       addToHistory({
         role: 'assistant',
         content: 'Sorry, I encountered an error while processing your request. Please check your API key and try again.',
         tokens: Math.ceil(errorMessage.text.length / 4)
       });
+
+      // Save error message to database with IP address
+      await saveMessageToDatabase(
+        'assistant',
+        'Sorry, I encountered an error while processing your request. Please check your API key and try again.',
+        Math.ceil(errorMessage.text.length / 4)
+      );
     } finally {
       setIsTyping(false);
     }

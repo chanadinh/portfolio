@@ -5,6 +5,7 @@ import sessionManager from '../utils/sessionManager';
 interface ChatHistoryState {
   messages: IMessage[];
   sessionId: string;
+  ipAddress: string | null;
   isLoading: boolean;
   error: string | null;
   stats: {
@@ -22,11 +23,13 @@ type ChatHistoryAction =
   | { type: 'SET_MESSAGES'; payload: IMessage[] }
   | { type: 'CLEAR_MESSAGES' }
   | { type: 'UPDATE_STATS'; payload: Partial<ChatHistoryState['stats']> }
-  | { type: 'SET_SESSION'; payload: string };
+  | { type: 'SET_SESSION'; payload: { sessionId: string; ipAddress?: string } }
+  | { type: 'SET_IP_ADDRESS'; payload: string };
 
 const initialState: ChatHistoryState = {
   messages: [],
   sessionId: sessionManager.getCurrentSessionId() || sessionManager.generateSessionId(),
+  ipAddress: sessionManager.getCurrentIPAddress(),
   isLoading: false,
   error: null,
   stats: {
@@ -97,7 +100,14 @@ function chatHistoryReducer(state: ChatHistoryState, action: ChatHistoryAction):
     case 'SET_SESSION':
       return {
         ...state,
-        sessionId: action.payload
+        sessionId: action.payload.sessionId,
+        ipAddress: action.payload.ipAddress || state.ipAddress
+      };
+
+    case 'SET_IP_ADDRESS':
+      return {
+        ...state,
+        ipAddress: action.payload
       };
     
     default:
@@ -111,6 +121,7 @@ interface ChatHistoryContextType {
   addMessage: (message: Omit<IMessage, 'timestamp'>) => void;
   clearHistory: () => void;
   newSession: () => void;
+  setIPAddress: (ipAddress: string) => void;
 }
 
 const ChatHistoryContext = createContext<ChatHistoryContextType | undefined>(undefined);
@@ -142,26 +153,41 @@ export const ChatHistoryProvider: React.FC<ChatHistoryProviderProps> = ({ childr
     dispatch({ type: 'CLEAR_MESSAGES' });
   };
 
-  const newSession = () => {
-    const newSessionId = sessionManager.generateSessionId();
-    dispatch({ type: 'SET_SESSION', payload: newSessionId });
+  const newSession = async () => {
+    const ipAddress = await sessionManager.getClientIPAddress();
+    const newSessionId = sessionManager.generateSessionId(ipAddress);
+    dispatch({ type: 'SET_SESSION', payload: { sessionId: newSessionId, ipAddress } });
     dispatch({ type: 'CLEAR_MESSAGES' });
   };
 
-  // Initialize session on mount
+  const setIPAddress = (ipAddress: string) => {
+    sessionManager.setIPAddress(ipAddress);
+    dispatch({ type: 'SET_IP_ADDRESS', payload: ipAddress });
+  };
+
+  // Initialize session and IP address on mount
   useEffect(() => {
-    if (!state.sessionId) {
-      const sessionId = sessionManager.generateSessionId();
-      dispatch({ type: 'SET_SESSION', payload: sessionId });
-    }
-  }, [state.sessionId]);
+    const initializeSession = async () => {
+      if (!state.sessionId) {
+        const ipAddress = await sessionManager.getClientIPAddress();
+        const sessionId = sessionManager.generateSessionId(ipAddress);
+        dispatch({ type: 'SET_SESSION', payload: { sessionId, ipAddress } });
+      } else if (!state.ipAddress) {
+        const ipAddress = await sessionManager.getClientIPAddress();
+        dispatch({ type: 'SET_IP_ADDRESS', payload: ipAddress });
+      }
+    };
+
+    initializeSession();
+  }, [state.sessionId, state.ipAddress]);
 
   const value: ChatHistoryContextType = {
     state,
     dispatch,
     addMessage,
     clearHistory,
-    newSession
+    newSession,
+    setIPAddress
   };
 
   return (

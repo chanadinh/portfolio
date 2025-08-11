@@ -9,6 +9,7 @@ export interface IMessage {
 
 export interface IChat extends Document {
   sessionId: string;
+  ipAddress: string; // Primary identifier for chat sessions
   userId?: string;
   messages: IMessage[];
   totalTokens: number;
@@ -16,8 +17,9 @@ export interface IChat extends Document {
   updatedAt: Date;
   metadata?: {
     userAgent?: string;
-    ipAddress?: string;
     location?: string;
+    deviceInfo?: string;
+    browserInfo?: string;
   };
 }
 
@@ -47,6 +49,11 @@ const ChatSchema = new Schema<IChat>({
     required: true,
     index: true
   },
+  ipAddress: {
+    type: String,
+    required: true,
+    index: true
+  },
   userId: {
     type: String,
     index: true
@@ -58,14 +65,17 @@ const ChatSchema = new Schema<IChat>({
   },
   metadata: {
     userAgent: String,
-    ipAddress: String,
-    location: String
+    location: String,
+    deviceInfo: String,
+    browserInfo: String
   }
 }, {
   timestamps: true
 });
 
-// Index for efficient querying
+// Indexes for efficient querying by IP address
+ChatSchema.index({ ipAddress: 1, createdAt: -1 });
+ChatSchema.index({ ipAddress: 1, sessionId: 1 });
 ChatSchema.index({ sessionId: 1, createdAt: -1 });
 ChatSchema.index({ userId: 1, createdAt: -1 });
 
@@ -74,15 +84,19 @@ export const Chat = mongoose.model<IChat>('Chat', ChatSchema);
 // Frontend data structure for chat history
 export interface ChatHistoryItem {
   sessionId: string;
+  ipAddress: string;
   lastMessage: string;
   messageCount: number;
   lastActivity: Date;
   totalTokens: number;
+  userAgent?: string;
+  location?: string;
 }
 
 // Search result interface
 export interface ChatSearchResult {
   sessionId: string;
+  ipAddress: string;
   message: IMessage;
   relevance: number;
 }
