@@ -74,11 +74,27 @@ REACT_APP_DESMOS_API_KEY=your_desmos_api_key_here
 3. Add your API key to `.env` as `REACT_APP_DESMOS_API_KEY`
 
 #### MongoDB Connection (KEEP SECRET!)
-1. Create a MongoDB Atlas account at [MongoDB Atlas](https://www.mongodb.com/atlas)
-2. Create a new cluster (free tier available)
-3. Get your connection string from the cluster
-4. **IMPORTANT**: Add it to Vercel environment variables as `REACT_APP_MONGODB_URI`
-5. **NEVER commit the MongoDB URI to git** - it contains database credentials
+1. **Your MongoDB Atlas Setup:**
+   - **Cluster**: `cluster0.mknpcws.mongodb.net`
+   - **Username**: `chandinhjobs`
+   - **Database**: `portfolio`
+   - **Collection**: `Chat`
+
+2. **Get Your Connection String:**
+   - Go to [MongoDB Atlas](https://www.mongodb.com/atlas)
+   - Navigate to your cluster: `cluster0.mknpcws.mongodb.net`
+   - Click "Connect" → "Connect your application"
+   - Copy the connection string
+
+3. **Set Environment Variable:**
+   - **IMPORTANT**: Add to Vercel environment variables as `REACT_APP_MONGODB_URI`
+   - **NEVER commit the MongoDB URI to git** - it contains database credentials
+   - Format: `mongodb+srv://chandinhjobs:YOUR_PASSWORD@cluster0.mknpcws.mongodb.net/portfolio?retryWrites=true&w=majority&appName=Cluster0`
+
+4. **Test Connection:**
+   - Use the provided `test-mongodb.js` script
+   - Replace `YOUR_ACTUAL_PASSWORD` with your real password
+   - Run: `node test-mongodb.js`
 
 ### Security Notes
 - **MongoDB URI**: Contains username, password, and database access - keep this secret!
