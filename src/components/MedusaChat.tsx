@@ -55,37 +55,110 @@ const retrieveRelevantInfo = (query: string): string => {
   
   // Check for education-related queries
   if (lowerQuery.includes('education') || lowerQuery.includes('degree') || lowerQuery.includes('university') || lowerQuery.includes('gpa')) {
-    relevantInfo += `Education: ${KNOWLEDGE_BASE.education.degree} from ${KNOWLEDGE_BASE.education.university}, graduating ${KNOWLEDGE_BASE.education.graduation} with a ${KNOWLEDGE_BASE.education.gpa} GPA. Relevant courses include ${KNOWLEDGE_BASE.education.relevant_courses.join(', ')}.\n\n`;
+    relevantInfo += `🎓 **EDUCATION & ACADEMIC BACKGROUND** 🎓
+
+**Degree:** ${KNOWLEDGE_BASE.education.degree}
+**Institution:** ${KNOWLEDGE_BASE.education.university}
+**Graduation:** ${KNOWLEDGE_BASE.education.graduation}
+**Academic Performance:** ${KNOWLEDGE_BASE.education.gpa} GPA
+
+**Relevant Coursework:**
+• ${KNOWLEDGE_BASE.education.relevant_courses.join('\n• ')}
+
+Chan's strong academic foundation in computer science, combined with specialized AI/ML coursework, provides the theoretical knowledge needed for advanced technical projects.\n\n`;
   }
   
   // Check for experience-related queries
   if (lowerQuery.includes('experience') || lowerQuery.includes('work') || lowerQuery.includes('intern') || lowerQuery.includes('job')) {
-    relevantInfo += `Current Experience: ${KNOWLEDGE_BASE.experience.current_role}. I have experience as a Software Engineering Intern and expertise in ${KNOWLEDGE_BASE.experience.skills.join(', ')}.\n\n`;
+    relevantInfo += `💼 **PROFESSIONAL EXPERIENCE & EXPERTISE** 💼
+
+**Current Role:** ${KNOWLEDGE_BASE.experience.current_role}
+**Previous Experience:** ${KNOWLEDGE_BASE.experience.previous}
+
+**Technical Skills & Technologies:**
+• ${KNOWLEDGE_BASE.experience.skills.join('\n• ')}
+
+Chan combines hands-on industry experience with cutting-edge AI/ML knowledge, making him well-equipped for both development and research roles.\n\n`;
   }
   
   // Check for project-related queries
   if (lowerQuery.includes('project') || lowerQuery.includes('portfolio') || lowerQuery.includes('work')) {
-    relevantInfo += `Key Projects:\n- ${KNOWLEDGE_BASE.projects.paemon}\n- ${KNOWLEDGE_BASE.projects.mnist}\n- ${KNOWLEDGE_BASE.projects.bike_sharing}\n- ${KNOWLEDGE_BASE.projects.dog_classifier}\n- ${KNOWLEDGE_BASE.projects.medusa_bot}\n\n`;
+    relevantInfo += `🚀 **PROJECTS & PORTFOLIO** 🚀
+
+**Featured Projects:**
+
+• **Project Pæmon** – AI web app generating personalized digital companions using GPT-5 and Stable Diffusion. Won Best Personal Project at Nosu AI Hackathon with $650 prize.
+
+• **MNIST Digit Classifier** – Machine learning project implementing neural networks and ML algorithms for digit recognition.
+
+• **Bike Sharing Demand Prediction** – ML project using AutoGluon for automated machine learning and time series forecasting.
+
+• **Dog Breed Classifier** – Computer vision project using PyTorch and CNN architectures (AlexNet, VGG, ResNet).
+
+• **Medusa Bot** – Feature-rich Discord bot with REST API integration and multiple external APIs.
+
+These projects demonstrate Chan's versatility across AI/ML, computer vision, web development, and software engineering.\n\n`;
   }
   
   // Check for achievement-related queries
   if (lowerQuery.includes('achievement') || lowerQuery.includes('award') || lowerQuery.includes('prize') || lowerQuery.includes('hackathon')) {
-    relevantInfo += `Achievements:\n- ${KNOWLEDGE_BASE.achievements.hackathon}\n- ${KNOWLEDGE_BASE.achievements.programming}\n- ${KNOWLEDGE_BASE.achievements.nanodegree}\n- ${KNOWLEDGE_BASE.achievements.academic}\n\n`;
+    relevantInfo += `🏆 **ACHIEVEMENTS & AWARDS** 🏆
+
+• **Best Personal Project (CodeBuff)** – Won $650 USD at the **Nosu AI Hackathon** for creating an innovative AI-powered project
+
+• **Top 5 Individual** at the **Intercollegiate Programming Competition**, showcasing strong problem-solving and algorithmic skills
+
+• **AI Programming with Python Nanodegree** from **Udacity**, demonstrating expertise in Python, machine learning, and AI fundamentals
+
+• **Academic Excellence** – Maintained a **3.8 GPA** while studying **Computer Science** at the **University of Central Florida (UCF)**
+
+These achievements highlight Chan's technical skills, competitive programming abilities, and commitment to continuous learning in AI/ML.\n\n`;
   }
   
   // Check for skills-related queries
   if (lowerQuery.includes('skill') || lowerQuery.includes('technology') || lowerQuery.includes('programming') || lowerQuery.includes('language')) {
-    relevantInfo += `Technical Skills: ${KNOWLEDGE_BASE.experience.skills.join(', ')}.\n\n`;
+    relevantInfo += `⚡ **TECHNICAL SKILLS & EXPERTISE** ⚡
+
+**Programming Languages & Frameworks:**
+• Python, JavaScript, React, Node.js
+
+**AI/ML & Data Science:**
+• PyTorch, TensorFlow, Machine Learning, Deep Learning
+
+**Computer Vision & NLP:**
+• Computer Vision, Natural Language Processing
+
+**Development & Tools:**
+• Web Development, Software Engineering
+
+Chan's skill set spans the full spectrum from traditional software development to cutting-edge AI/ML technologies, making him a versatile and valuable team member.\n\n`;
   }
   
   // Check for contact-related queries
   if (lowerQuery.includes('contact') || lowerQuery.includes('email') || lowerQuery.includes('linkedin') || lowerQuery.includes('github')) {
-    relevantInfo += `Contact Information:\n- Email: ${KNOWLEDGE_BASE.personal.email}\n- LinkedIn: ${KNOWLEDGE_BASE.personal.linkedin}\n- GitHub: ${KNOWLEDGE_BASE.personal.github}\n\n`;
+    relevantInfo += `📧 **CONTACT & PROFESSIONAL LINKS** 📧
+
+**Get in Touch:**
+• **Email:** ${KNOWLEDGE_BASE.personal.email}
+• **LinkedIn:** ${KNOWLEDGE_BASE.personal.linkedin}
+• **GitHub:** ${KNOWLEDGE_BASE.personal.github}
+
+**Location:** ${KNOWLEDGE_BASE.personal.location}
+
+Feel free to reach out for collaboration opportunities, technical discussions, or to learn more about Chan's work!\n\n`;
   }
   
   // Check for general personal queries
   if (lowerQuery.includes('who are you') || lowerQuery.includes('tell me about') || lowerQuery.includes('background') || lowerQuery.includes('yourself')) {
-    relevantInfo += `About Me: I'm ${KNOWLEDGE_BASE.personal.name}, a ${KNOWLEDGE_BASE.personal.title} based in ${KNOWLEDGE_BASE.personal.location}. I'm passionate about ${KNOWLEDGE_BASE.interests.join(', ')}.\n\n`;
+    relevantInfo += `👋 **ABOUT CHAN DINH** 👋
+
+**Professional Identity:** ${KNOWLEDGE_BASE.personal.title}
+**Location:** ${KNOWLEDGE_BASE.personal.location}
+
+**Areas of Passion & Expertise:**
+• ${KNOWLEDGE_BASE.interests.join('\n• ')}
+
+Chan is a dedicated AI/ML engineer and full-stack developer who combines strong academic foundations with practical industry experience. His work spans from competitive programming to cutting-edge AI applications, demonstrating both technical depth and innovative thinking.\n\n`;
   }
   
   return relevantInfo;
@@ -173,9 +246,17 @@ const MedusaChat: React.FC = () => {
 IMPORTANT CONTEXT ABOUT CHAN DINH:
 ${retrieveRelevantInfo(inputText)}
 
-Use this information to provide accurate, personalized responses about Chan's experience, skills, projects, and achievements. When asked about Chan, always reference this information. For general questions, you can still provide helpful information about programming, AI/ML, and other topics.
+Use this information to provide accurate, personalized responses about Chan's experience, skills, projects, and achievements. When asked about Chan, always reference this information and maintain the well-formatted structure with proper spacing, bullet points, and emojis.
 
-Be conversational, helpful, and provide accurate information. Keep responses concise but informative. If the user asks about Chan's background, skills, or experience, make sure to include relevant details from the context provided.`
+IMPORTANT FORMATTING GUIDELINES:
+- Use clear section headers with emojis and bold text
+- Maintain proper spacing between sections
+- Use bullet points (•) for lists
+- Bold important information and names
+- Keep responses well-structured and easy to read
+- For general questions, you can still provide helpful information about programming, AI/ML, and other topics
+
+Be conversational, helpful, and provide accurate information. Keep responses concise but informative. If the user asks about Chan's background, skills, or experience, make sure to include relevant details from the context provided in a well-formatted manner.`
             },
             ...messages
               .filter(msg => msg.sender === 'user')
