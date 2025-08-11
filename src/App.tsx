@@ -4,6 +4,7 @@ import MedusaChat from './components/MedusaChat';
 import Portfolio from './components/Portfolio';
 import Graphing from './components/Graphing';
 import DynamicBackground from './components/DynamicBackground';
+import { ChatHistoryProvider } from './contexts/ChatHistoryContext';
 import './App.css';
 
 const App: React.FC = () => {
@@ -27,11 +28,15 @@ const App: React.FC = () => {
     <Router>
       <DynamicBackground>
         <div className="min-h-screen">
-          <Routes>
-            <Route path="/medusachat" element={<MedusaChat apiKey={apiKey} />} />
-            <Route path="/" element={<Portfolio />} />
-            <Route path="/graphing" element={<Graphing />} />
-          </Routes>
+                           <Routes>
+                   <Route path="/medusachat" element={
+                     <ChatHistoryProvider>
+                       <MedusaChat apiKey={apiKey} />
+                     </ChatHistoryProvider>
+                   } />
+                   <Route path="/" element={<Portfolio />} />
+                   <Route path="/graphing" element={<Graphing />} />
+                 </Routes>
         </div>
       </DynamicBackground>
     </Router>

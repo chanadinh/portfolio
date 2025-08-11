@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, Bot, User, ArrowLeft, MessageCircle, AlertCircle, Linkedin, Briefcase, GraduationCap, Award, Code, Database, Brain } from 'lucide-react';
+import { Send, Bot, User, ArrowLeft, MessageCircle, AlertCircle, Linkedin, Briefcase, GraduationCap, Award, Code, Database, Brain, History } from 'lucide-react';
 import { motion } from 'framer-motion';
 import PERSONAL_INFO from '../data/personalInfo';
+import { useChatHistory } from '../contexts/ChatHistoryContext';
+import ChatHistory from './ChatHistory';
 
 interface Message {
   id: string;
@@ -9,6 +11,7 @@ interface Message {
   sender: 'user' | 'bot';
   timestamp: Date;
   error?: boolean;
+  tokens?: number;
 }
 
 interface MedusaChatProps {
@@ -248,7 +251,11 @@ const MedusaChat: React.FC<MedusaChatProps> = ({ apiKey }) => {
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [currentBackground, setCurrentBackground] = useState<string>('');
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  
+  // Chat history context
+  const { addMessage: addToHistory, state: chatHistoryState } = useChatHistory();
 
   // Function to detect background changes
   const detectBackgroundChange = () => {
@@ -322,6 +329,14 @@ const MedusaChat: React.FC<MedusaChatProps> = ({ apiKey }) => {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    
+    // Save user message to chat history
+    addToHistory({
+      role: 'user',
+      content: inputText,
+      tokens: Math.ceil(inputText.length / 4) // Rough token estimation
+    });
+    
     setInputText('');
     setIsTyping(true);
 
@@ -380,6 +395,13 @@ Be helpful, conversational, and provide accurate information while maintaining a
       };
       
       setMessages(prev => [...prev, botResponse]);
+      
+      // Save bot response to chat history
+      addToHistory({
+        role: 'assistant',
+        content: data.choices[0]?.message?.content || 'Sorry, I encountered an error processing your request.',
+        tokens: data.usage?.completion_tokens || Math.ceil(botResponse.text.length / 4)
+      });
     } catch (error) {
       console.error('OpenAI API error:', error);
       const errorMessage: Message = {
@@ -390,6 +412,13 @@ Be helpful, conversational, and provide accurate information while maintaining a
         error: true
       };
       setMessages(prev => [...prev, errorMessage]);
+      
+      // Save error message to chat history
+      addToHistory({
+        role: 'assistant',
+        content: 'Sorry, I encountered an error while processing your request. Please check your API key and try again.',
+        tokens: Math.ceil(errorMessage.text.length / 4)
+      });
     } finally {
       setIsTyping(false);
     }
@@ -422,6 +451,19 @@ Be helpful, conversational, and provide accurate information while maintaining a
               <h1 className="text-2xl font-bold text-white">Medusa Chat</h1>
             </div>
             <div className="flex items-center space-x-2">
+              <button
+                onClick={() => setIsHistoryOpen(true)}
+                className="flex items-center space-x-2 px-3 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-all duration-200 backdrop-blur-sm border border-white/30"
+                title="Chat History"
+              >
+                <History className="w-4 h-4" />
+                <span className="text-sm font-medium">History</span>
+                {chatHistoryState.messages.length > 0 && (
+                  <span className="bg-blue-500 text-white text-xs px-2 py-1 rounded-full min-w-[20px] text-center">
+                    {chatHistoryState.messages.length}
+                  </span>
+                )}
+              </button>
               {process.env.REACT_APP_OPENAI_API_KEY ? (
                 <span className="text-sm text-green-200 bg-green-500/20 backdrop-blur-sm px-3 py-1 rounded-full border border-green-400/30">
                   Production Mode
@@ -663,6 +705,12 @@ Be helpful, conversational, and provide accurate information while maintaining a
           </div>
         </motion.div>
       </div>
+      
+      {/* Chat History Sidebar */}
+      <ChatHistory 
+        isOpen={isHistoryOpen} 
+        onClose={() => setIsHistoryOpen(false)} 
+      />
     </div>
   );
 };
