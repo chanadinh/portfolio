@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MedusaChat from './components/MedusaChat';
 import Portfolio from './components/Portfolio';
+import Graphing from './components/Graphing';
 import DynamicBackground from './components/DynamicBackground';
 import './App.css';
 
@@ -29,6 +30,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/medusachat" element={<MedusaChat apiKey={apiKey} />} />
             <Route path="/" element={<Portfolio />} />
+            <Route path="/graphing" element={<Graphing />} />
           </Routes>
         </div>
       </DynamicBackground>
