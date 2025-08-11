@@ -13,16 +13,5 @@
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ],
-  "functions": {
-    "api/health.js": {
-      "maxDuration": 30
-    },
-    "api/chat/message.js": {
-      "maxDuration": 30
-    },
-    "api/chat/history/[ipAddress].js": {
-      "maxDuration": 30
-    }
-  }
+  ]
 }
