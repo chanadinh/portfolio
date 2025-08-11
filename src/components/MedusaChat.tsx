@@ -406,10 +406,10 @@ Be helpful, conversational, and provide accurate information while maintaining a
                   </div>
                   <div className={`rounded-2xl px-4 py-3 backdrop-blur-sm ${
                     message.sender === 'user'
-                      ? 'bg-white/30 text-white border border-white/40'
+                      ? 'bg-blue-600/80 text-white border border-blue-500/50'
                       : message.error
-                        ? 'bg-red-500/20 text-red-200 border border-red-400/30'
-                        : 'bg-white/20 text-white border border-white/30'
+                        ? 'bg-red-600/80 text-white border border-red-500/50'
+                        : 'bg-gray-800/80 text-white border border-gray-700/50'
                   }`}>
                     <p className="text-sm leading-relaxed">{message.text}</p>
                     <p className={`text-xs mt-2 ${
@@ -434,7 +434,7 @@ Be helpful, conversational, and provide accurate information while maintaining a
                   <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center overflow-hidden border border-white/30">
                     <img src="/medusa.ico" alt="Medusa" className="w-6 h-6" />
                   </div>
-                  <div className="bg-white/20 rounded-2xl px-4 py-3 border border-white/30 backdrop-blur-sm">
+                  <div className="bg-gray-800/80 rounded-2xl px-4 py-3 border border-gray-700/50 backdrop-blur-sm">
                     <div className="flex space-x-1">
                       <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce"></div>
                       <div className="w-2 h-2 bg-white/60 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
