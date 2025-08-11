@@ -17,6 +17,7 @@ export class ChatService {
     sessionId: string,
     role: 'user' | 'assistant',
     content: string,
+    ipAddress: string, // Required IP address
     tokens?: number,
     userId?: string,
     metadata?: any
@@ -30,8 +31,13 @@ export class ChatService {
       tokens: tokens || 0
     };
 
-    // Try to find existing chat session
-    let chat = await Chat.findOne({ sessionId });
+    // Try to find existing chat session by IP address first, then by sessionId
+    let chat = await Chat.findOne({ 
+      $or: [
+        { ipAddress, sessionId },
+        { ipAddress }
+      ]
+    });
 
     if (chat) {
       // Add message to existing session
@@ -40,10 +46,15 @@ export class ChatService {
       if (metadata) {
         chat.metadata = { ...chat.metadata, ...metadata };
       }
+      // Update sessionId if it changed
+      if (chat.sessionId !== sessionId) {
+        chat.sessionId = sessionId;
+      }
     } else {
       // Create new chat session
       chat = new Chat({
         sessionId,
+        ipAddress,
         userId,
         messages: [message],
         totalTokens: tokens || 0,
@@ -57,6 +68,13 @@ export class ChatService {
   async getChatHistory(sessionId: string): Promise<IChat | null> {
     await connectDB();
     return await Chat.findOne({ sessionId }).sort({ createdAt: -1 });
+  }
+
+  async getChatHistoryByIP(ipAddress: string, limit: number = 50): Promise<IChat[]> {
+    await connectDB();
+    return await Chat.find({ ipAddress })
+      .sort({ updatedAt: -1 })
+      .limit(limit);
   }
 
   async getUserChatHistory(userId: string, limit: number = 50): Promise<IChat[]> {
@@ -80,6 +98,12 @@ export class ChatService {
     await connectDB();
     const result = await Chat.deleteOne({ sessionId });
     return result.deletedCount > 0;
+  }
+
+  async deleteChatsByIP(ipAddress: string): Promise<number> {
+    await connectDB();
+    const result = await Chat.deleteMany({ ipAddress });
+    return result.deletedCount;
   }
 
   async deleteUserChats(userId: string): Promise<number> {
@@ -121,7 +145,44 @@ export class ChatService {
     };
   }
 
-  async searchChats(query: string, userId?: string): Promise<IChat[]> {
+  async getChatStatsByIP(ipAddress: string): Promise<{
+    totalSessions: number;
+    totalMessages: number;
+    totalTokens: number;
+    averageMessagesPerSession: number;
+    firstSeen: Date | null;
+    lastSeen: Date | null;
+  }> {
+    await connectDB();
+    const chats = await Chat.find({ ipAddress }).sort({ createdAt: 1 });
+    
+    if (chats.length === 0) {
+      return {
+        totalSessions: 0,
+        totalMessages: 0,
+        totalTokens: 0,
+        averageMessagesPerSession: 0,
+        firstSeen: null,
+        lastSeen: null
+      };
+    }
+
+    const totalMessages = chats.reduce((sum, chat) => sum + chat.messages.length, 0);
+    const totalTokens = chats.reduce((sum, chat) => sum + chat.totalTokens, 0);
+    const firstSeen = chats[0].createdAt;
+    const lastSeen = chats[chats.length - 1].updatedAt;
+
+    return {
+      totalSessions: chats.length,
+      totalMessages,
+      totalTokens,
+      averageMessagesPerSession: Math.round(totalMessages / chats.length * 100) / 100,
+      firstSeen,
+      lastSeen
+    };
+  }
+
+  async searchChats(query: string, userId?: string, ipAddress?: string): Promise<IChat[]> {
     await connectDB();
     
     const searchQuery: any = {
@@ -132,9 +193,48 @@ export class ChatService {
       searchQuery.userId = userId;
     }
 
+    if (ipAddress) {
+      searchQuery.ipAddress = ipAddress;
+    }
+
     return await Chat.find(searchQuery)
       .sort({ updatedAt: -1 })
       .limit(20);
+  }
+
+  async getUniqueIPs(limit: number = 100): Promise<string[]> {
+    await connectDB();
+    const ips = await Chat.distinct('ipAddress');
+    return ips.slice(0, limit);
+  }
+
+  async getIPActivitySummary(limit: number = 50): Promise<Array<{
+    ipAddress: string;
+    totalSessions: number;
+    totalMessages: number;
+    lastActivity: Date;
+  }>> {
+    await connectDB();
+    
+    const pipeline: any[] = [
+      { $group: {
+        _id: '$ipAddress',
+        totalSessions: { $sum: 1 },
+        totalMessages: { $sum: { $size: '$messages' } },
+        lastActivity: { $max: '$updatedAt' }
+      }},
+      { $sort: { lastActivity: -1 } },
+      { $limit: limit },
+      { $project: {
+        _id: 0,
+        ipAddress: '$_id',
+        totalSessions: 1,
+        totalMessages: 1,
+        lastActivity: 1
+      }}
+    ];
+
+    return await Chat.aggregate(pipeline);
   }
 }
 
