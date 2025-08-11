@@ -238,7 +238,7 @@ Be conversational, helpful, and provide accurate information. Keep responses con
           className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8 max-w-md w-full mx-4"
         >
           <div className="text-center mb-6">
-            <Bot className="w-16 h-16 text-primary-600 mx-auto mb-4" />
+            <img src="/medusa.ico" alt="Medusa" className="w-16 h-16 mx-auto mb-4" />
             <h1 className="text-2xl font-bold text-gray-900 mb-2">Setup Required</h1>
             <p className="text-gray-600">Please enter your OpenAI API key to use Medusa Chat</p>
           </div>
@@ -305,7 +305,7 @@ Be conversational, helpful, and provide accurate information. Keep responses con
               </a>
             </div>
             <div className="flex items-center space-x-3">
-              <Bot className="w-8 h-8 text-primary-600" />
+              <img src="/medusa.ico" alt="Medusa" className="w-8 h-8" />
               <h1 className="text-2xl font-bold text-gray-900">Medusa Chat</h1>
             </div>
             <div className="flex items-center space-x-2">
@@ -338,8 +338,8 @@ Be conversational, helpful, and provide accurate information. Keep responses con
           {/* Chat Header */}
           <div className="bg-gradient-to-r from-primary-600 to-accent-600 px-6 py-4">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                <Bot className="w-6 h-6 text-white" />
+              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center overflow-hidden">
+                <img src="/medusa.ico" alt="Medusa" className="w-8 h-8" />
               </div>
               <div>
                 <h2 className="text-white font-semibold text-lg">Medusa AI Assistant</h2>
@@ -359,15 +359,16 @@ Be conversational, helpful, and provide accurate information. Keep responses con
                 className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div className={`flex items-start space-x-3 max-w-xs lg:max-w-md ${message.sender === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
                     message.sender === 'user' 
                       ? 'bg-primary-600 text-white' 
                       : message.error 
                         ? 'bg-red-500 text-white'
-                        : 'bg-gray-200 text-gray-700'
+                        : 'bg-gray-200'
                   }`}>
                     {message.sender === 'user' ? <User className="w-4 h-4" /> : 
-                     message.error ? <AlertCircle className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+                     message.error ? <AlertCircle className="w-4 h-4" /> : 
+                     <img src="/medusa.ico" alt="Medusa" className="w-6 h-6" />}
                   </div>
                   <div className={`rounded-2xl px-4 py-3 ${
                     message.sender === 'user'
@@ -396,8 +397,8 @@ Be conversational, helpful, and provide accurate information. Keep responses con
                 className="flex justify-start"
               >
                 <div className="flex items-start space-x-3">
-                  <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                    <Bot className="w-4 h-4 text-gray-700" />
+                  <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+                    <img src="/medusa.ico" alt="Medusa" className="w-6 h-6" />
                   </div>
                   <div className="bg-gray-100 rounded-2xl px-4 py-3">
                     <div className="flex space-x-1">
@@ -521,7 +522,7 @@ Be conversational, helpful, and provide accurate information. Keep responses con
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
               <div className="flex items-center justify-center space-x-2">
-                <Bot className="w-4 h-4 text-primary-600" />
+                <img src="/medusa.ico" alt="Medusa" className="w-4 h-4" />
                 <span>OpenAI Powered</span>
               </div>
               <div className="flex items-center justify-center space-x-2">
