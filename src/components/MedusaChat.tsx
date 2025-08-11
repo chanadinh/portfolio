@@ -83,7 +83,7 @@ const MedusaChat: React.FC = () => {
           'Authorization': `Bearer ${apiKey}`
         },
         body: JSON.stringify({
-          model: 'gpt-3.5-turbo',
+          model: 'gpt-5-chat-latest',
           messages: [
             {
               role: 'system',
@@ -257,7 +257,7 @@ const MedusaChat: React.FC = () => {
               </div>
               <div>
                 <h2 className="text-white font-semibold text-lg">Medusa AI Assistant</h2>
-                <p className="text-white/80 text-sm">Powered by OpenAI GPT-3.5 Turbo</p>
+                <p className="text-white/80 text-sm">Powered by OpenAI GPT-5</p>
               </div>
             </div>
           </div>
@@ -364,7 +364,7 @@ const MedusaChat: React.FC = () => {
             <MessageCircle className="w-12 h-12 text-primary-600 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-gray-900 mb-2">About Medusa Chat</h3>
             <p className="text-gray-600 mb-4">
-              This is an AI-powered chatbot powered by OpenAI's GPT-3.5 Turbo model. 
+              This is an AI-powered chatbot powered by OpenAI's GPT-5 model. 
               It can help you learn about programming, AI/ML, and answer general questions.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
